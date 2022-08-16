@@ -10,8 +10,9 @@ import 'package:mobile/app/infra/interfaces/i_predictions_repository.dart';
 import 'package:mobile/app/infra/repositories/predictions_repository.dart';
 import 'package:mobile/app/infra/services/predict_disease_service.dart';
 import 'package:mobile/app/infra/services/predictions_service.dart';
-import 'package:mobile/app/presentation/BloC/predict_disease/predict_disease_bloc.dart';
 import 'package:mobile/app/presentation/screens/home_page.dart';
+
+import 'app/presentation/BloC/blocs.dart';
 
 class AppModule extends Module {
   @override
