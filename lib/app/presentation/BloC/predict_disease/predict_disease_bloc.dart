@@ -23,19 +23,17 @@ class PredictDiseaseBloc
     PredictDiseaseEvent event,
     Emitter<PredictDiseaseState> emit,
   ) async {
-    emit(state.copyWith(
-      prediction: null,
-      failure: null,
-    ));
+    emit(PredictDiseaseState.loading());
     try {
       final result = await usecase(payload: event.payload);
-      result.fold((l) => emit(state.copyWith(prediction: null, failure: l)),
-          (r) => emit(state.copyWith(prediction: r, failure: null)));
+      result.fold(
+        (l) => emit(PredictDiseaseState.failure(l)),
+        (r) => emit(PredictDiseaseState.success(r)),
+      );
     } on Failure catch (failure) {
-      emit(state.copyWith(
-        prediction: null,
-        failure: failure,
-      ));
+      emit(PredictDiseaseState.failure(failure));
+    } on Exception {
+      emit(PredictDiseaseState.failure(Failure()));
     }
   }
 }
