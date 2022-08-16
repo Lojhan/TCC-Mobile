@@ -20,7 +20,7 @@ class AppModule extends Module {
         Bind.singleton((i) => PredictionLocalDataSource()),
         Bind.singleton((i) => PredictionRemoteDatasource(
               dioInstance: i<Dio>(),
-              baseUrl: 'localhost:8080/predictions',
+              baseUrl: 'http://localhost:8080/predictions',
             )),
         Bind.singleton((i) => PredictionsRepository(
               localDatasource: i<PredictionLocalDataSource>(),
@@ -28,7 +28,7 @@ class AppModule extends Module {
             )),
         Bind.singleton((i) => PredictDiseaseService(
               dioInstance: i<Dio>(),
-              baseUrl: 'localhost:8080/predictions',
+              baseUrl: 'http://localhost:8080/predictions',
             )),
         Bind.singleton((i) => PredictionsService(
               predictionsRepository: i<IPredictionsRepository>(),

@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:mobile/app/domain/errors/errors.dart';
 import 'package:mobile/app/domain/entities/prediction_payload.dart';
 import 'package:mobile/app/domain/entities/prediction.dart';
@@ -36,7 +37,9 @@ class PredictionsService implements IPredictionsService {
       return Right(result);
     } on Failure {
       return Left(Failure());
-    } catch (e) {
+    } on Error {
+      return Left(Failure());
+    } on Exception {
       return Left(Failure());
     }
   }

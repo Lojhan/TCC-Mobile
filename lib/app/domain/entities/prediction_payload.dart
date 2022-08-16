@@ -20,4 +20,10 @@ class PredictionPayload {
     payload.existsSync();
     return true;
   }
+
+  toJson() {
+    return {
+      'payload': payload.path,
+    };
+  }
 }

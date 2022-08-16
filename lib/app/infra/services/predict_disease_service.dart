@@ -9,9 +9,9 @@ class PredictDiseaseService implements IPredictDiseaseService {
   PredictDiseaseService({required this.dioInstance, required this.baseUrl});
 
   @override
-  Future<Prediction> call({required PredictionPayload payload}) {
-    return dioInstance.post('/predict', data: payload).then((response) {
-      return Prediction.fromRemote(response.data);
-    });
+  Future<Prediction> call({required PredictionPayload payload}) async {
+    Response<Map<String, dynamic>> response =
+        await dioInstance.post('$baseUrl/predict', data: payload.toJson());
+    return Prediction.fromRemote(response.data!);
   }
 }
