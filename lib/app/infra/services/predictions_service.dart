@@ -1,10 +1,9 @@
-import 'package:dio/dio.dart';
 import 'package:mobile/app/domain/errors/errors.dart';
 import 'package:mobile/app/domain/entities/prediction_payload.dart';
 import 'package:mobile/app/domain/entities/prediction.dart';
 import 'package:dartz/dartz.dart';
 import 'package:mobile/app/domain/interfaces/services/i_predictions_service.dart';
-import 'package:mobile/app/infra/interfaces/datasources/I_predict_service.dart';
+import 'package:mobile/app/infra/interfaces/datasources/i_predict_service.dart';
 import 'package:mobile/app/infra/interfaces/i_predictions_repository.dart';
 
 class PredictionsService implements IPredictionsService {

@@ -5,7 +5,7 @@ import 'package:mobile/app/domain/usecases/list_predictions.usecase.dart';
 import 'package:mobile/app/domain/usecases/predict_disease.usecase.dart';
 import 'package:mobile/app/external/datasources/prediction_local_datasource.dart';
 import 'package:mobile/app/external/datasources/prediction_remote_datasource.dart';
-import 'package:mobile/app/infra/interfaces/datasources/I_predict_service.dart';
+import 'package:mobile/app/infra/interfaces/datasources/i_predict_service.dart';
 import 'package:mobile/app/infra/interfaces/i_predictions_repository.dart';
 import 'package:mobile/app/infra/repositories/predictions_repository.dart';
 import 'package:mobile/app/infra/services/predict_disease_service.dart';
