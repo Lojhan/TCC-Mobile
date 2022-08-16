@@ -11,12 +11,14 @@ import 'package:mobile/app/infra/repositories/predictions_repository.dart';
 import 'package:mobile/app/infra/services/predict_disease_service.dart';
 import 'package:mobile/app/infra/services/predictions_service.dart';
 import 'package:mobile/app/presentation/screens/home_page.dart';
+import 'package:mobile/navigator.dart';
 
 import 'app/presentation/BloC/blocs.dart';
 
 class AppModule extends Module {
   @override
   List<Bind> get binds => [
+        Bind.singleton((i) => NavigationService()),
         Bind.factory((i) => Dio()),
         Bind.singleton((i) => PredictionLocalDataSource()),
         Bind.singleton((i) => PredictionRemoteDatasource(
