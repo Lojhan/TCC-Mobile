@@ -11,9 +11,9 @@ import 'package:mobile/app/infra/repositories/predictions_repository.dart';
 import 'package:mobile/app/infra/services/predict_disease_service.dart';
 import 'package:mobile/app/infra/services/predictions_service.dart';
 import 'package:mobile/app/presentation/screens/home_page.dart';
-import 'package:mobile/navigator.dart';
+import 'package:mobile/app/infra/services/navigator.dart';
 
-import 'app/presentation/BloC/blocs.dart';
+import 'presentation/BloC/blocs.dart';
 
 class AppModule extends Module {
   @override

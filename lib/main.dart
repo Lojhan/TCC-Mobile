@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:mobile/app_module.dart';
-import 'package:mobile/navigator.dart';
+import 'package:mobile/app/app_module.dart';
+import 'package:mobile/app/infra/services/navigator.dart';
 
 void main() async {
   runApp(ModularApp(
