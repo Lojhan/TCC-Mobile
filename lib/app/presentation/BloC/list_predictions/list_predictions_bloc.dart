@@ -5,6 +5,7 @@ import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:mobile/app/domain/entities/prediction.dart';
 import 'package:mobile/app/domain/errors/errors.dart';
 import 'package:mobile/app/domain/usecases/list_predictions.usecase.dart';
+import 'package:mobile/app/presentation/components/misc/decide_from_state.dart';
 
 part 'list_predictions_event.dart';
 part 'list_predictions_state.dart';
@@ -62,8 +63,7 @@ class ListPredictionsBloc extends HydratedBloc<LPEvent, ListPredictionsState> {
 
   @override
   Map<String, dynamic>? toJson(ListPredictionsState state) {
-    final jsonPredictions =
-        state.predictions.map((e) => e.toJson(true)).toList();
+    final jsonPredictions = state.predictions.map((e) => e.toJson).toList();
     return {
       'predictions': jsonPredictions,
     };

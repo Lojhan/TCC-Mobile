@@ -1,6 +1,6 @@
 part of 'list_predictions_bloc.dart';
 
-class ListPredictionsState extends Equatable {
+class ListPredictionsState extends Equatable implements StatePayload {
   final List<Prediction> predictions;
   final Failure? failure;
   final bool isLoading;
@@ -22,8 +22,16 @@ class ListPredictionsState extends Equatable {
   }
 
   factory ListPredictionsState.initial() {
-    return const ListPredictionsState(
-      predictions: [],
+    return ListPredictionsState(
+      predictions: [
+        Prediction(
+          id: 'id',
+          dx: 'dx',
+          diseaseName: 'diseaseName',
+          createdAt: DateTime.now(),
+          predicted: false,
+        )
+      ],
       failure: null,
       isLoading: false,
     );
@@ -67,4 +75,16 @@ class ListPredictionsState extends Equatable {
       isLoading: isLoading,
     );
   }
+
+  @override
+  get state => predictions;
+
+  @override
+  get hasData => predictions.isNotEmpty;
+
+  @override
+  bool? get failed => failure is Failure;
+
+  @override
+  bool get loading => isLoading;
 }

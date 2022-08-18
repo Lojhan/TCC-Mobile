@@ -12,26 +12,24 @@ FutureOr<void> initPrediting(
   BuildContext context,
   PredictDiseaseBloc bloc,
 ) async {
-  try {
-    WidgetsFlutterBinding.ensureInitialized();
-    final cameras = await availableCameras();
+  WidgetsFlutterBinding.ensureInitialized();
+  final cameras = await availableCameras();
 
-    String? file = await Modular.to.push(
-      MaterialPageRoute(
-        builder: (context) => TakePictureScreen(camera: cameras.first),
-      ),
-    );
+  if (cameras.isEmpty) {
+    throw NoCamerasAvailableException();
+  }
 
-    if (file == null) {
-      return;
-    }
+  String? file = await Modular.to.push(
+    MaterialPageRoute(
+      builder: (context) => TakePictureScreen(camera: cameras.first),
+    ),
+  );
 
-    PredictionPayload payload = await PredictionPayload.fromImageFilePath(file);
-
-    return bloc.add(PredictDiseaseEvent(payload: payload));
-  } on Failure {
-    return;
-  } on Exception {
+  if (file == null) {
     return;
   }
+
+  PredictionPayload payload = await PredictionPayload.fromImageFilePath(file);
+
+  return bloc.add(PredictDiseaseEvent(payload: payload));
 }

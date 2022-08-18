@@ -60,7 +60,7 @@ class Prediction {
   factory Prediction.fromPayload(PredictionPayload payload) {
     return Prediction(
       id: DateTime.now().toString(),
-      localImagePath: base64Encode(payload.payload.readAsBytesSync()),
+      localImagePath: payload.payload.path,
       remoteImagePath: 'not uploaded',
       dx: 'undetermined',
       diseaseName: 'undetermined',
@@ -87,7 +87,7 @@ class Prediction {
   ) {
     return Prediction(
       id: prediction.id,
-      localImagePath: base64Encode(payload.payload.readAsBytesSync()),
+      localImagePath: payload.payload.path,
       remoteImagePath: prediction.remoteImagePath,
       dx: prediction.dx,
       diseaseName: prediction.diseaseName,
@@ -96,21 +96,15 @@ class Prediction {
     );
   }
 
-  Map<String, dynamic> toJson(bool base64Image) {
-    return {
-      'id': id,
-      'localImagePath': localImagePath,
-      'remoteImagePath': remoteImagePath,
-      'dx': dx,
-      'diseaseName': diseaseName,
-      'createdAt': createdAt.toIso8601String(),
-      'predicted': predicted.toString(),
-    };
-  }
-
-  base64(String imagePath) {
-    return base64Encode(File(imagePath).readAsBytesSync());
-  }
+  Map<String, dynamic> get toJson => {
+        'id': id,
+        'localImagePath': localImagePath,
+        'remoteImagePath': remoteImagePath,
+        'dx': dx,
+        'diseaseName': diseaseName,
+        'createdAt': createdAt.toIso8601String(),
+        'predicted': predicted.toString(),
+      };
 
   bool renderable() {
     if (id.isEmpty) {

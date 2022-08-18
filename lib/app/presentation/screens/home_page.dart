@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:mobile/app/domain/errors/errors.dart';
 import 'package:mobile/app/presentation/BloC/predict_disease/predict_disease_bloc.dart';
 import 'package:mobile/app/presentation/components/alert_dialog/prediction_failure.dart';
 import 'package:mobile/app/presentation/components/bottom_sheet/no_cameras_available.dart';
@@ -17,7 +18,7 @@ class HomePage extends StatelessWidget {
       BuildContext context, PredictDiseaseBloc bloc) async {
     try {
       await initPrediting(context, bloc);
-    } on Exception {
+    } on NoCamerasAvailableException {
       showNoCamerasToast(context);
     }
   }
