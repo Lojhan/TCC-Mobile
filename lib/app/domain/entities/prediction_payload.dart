@@ -2,8 +2,9 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:camera/camera.dart';
+import 'package:equatable/equatable.dart';
 
-class PredictionPayload {
+class PredictionPayload extends Equatable {
   File payload;
 
   PredictionPayload({
@@ -13,6 +14,7 @@ class PredictionPayload {
   static Future<PredictionPayload> fromImageXFile(XFile image) async {
     Uint8List bytes = await image.readAsBytes();
     File payload = File.fromRawPath(bytes);
+    await payload.create();
     return PredictionPayload(payload: payload);
   }
 
@@ -22,8 +24,7 @@ class PredictionPayload {
   }
 
   bool valid() {
-    payload.existsSync();
-    return true;
+    return payload.existsSync();
   }
 
   toJson() {
@@ -31,4 +32,7 @@ class PredictionPayload {
       'payload': payload,
     };
   }
+
+  @override
+  List<Object?> get props => [payload];
 }

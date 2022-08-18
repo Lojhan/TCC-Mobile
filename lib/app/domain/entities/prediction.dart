@@ -1,10 +1,8 @@
-import 'dart:convert';
-import 'dart:io';
-
+import 'package:equatable/equatable.dart';
 import 'package:mobile/app/domain/entities/prediction_payload.dart';
 import 'package:mobile/helpers/valid_datestring.dart';
 
-class Prediction {
+class Prediction extends Equatable {
   final String id;
   final String localImagePath;
   final String remoteImagePath;
@@ -16,7 +14,7 @@ class Prediction {
   String get image =>
       localImagePath.isNotEmpty ? localImagePath : remoteImagePath;
 
-  Prediction({
+  const Prediction({
     required this.id,
     this.localImagePath = '',
     this.remoteImagePath = '',
@@ -42,7 +40,7 @@ class Prediction {
 
   factory Prediction.fromLocal(Map<String, dynamic> payload) {
     String dateString = payload['createdAt'];
-    String? predictedString = payload['predicted'];
+
     Prediction prediction = Prediction(
       id: payload['id'],
       localImagePath: payload['localImagePath'],
@@ -51,7 +49,7 @@ class Prediction {
       createdAt: validDateString(dateString)
           ? DateTime.parse(dateString)
           : DateTime.now(),
-      predicted: predictedString != null ? predictedString == 'true' : false,
+      predicted: formatPredicted(payload['predicted']),
     );
     return prediction;
   }
@@ -69,13 +67,6 @@ class Prediction {
   }
 
   factory Prediction.fromJson(Map<String, dynamic> json) {
-    var predicted = json['predicted'];
-
-    predicted ??= false;
-
-    if (predicted is String) {
-      predicted = predicted == 'true';
-    }
     return Prediction(
       id: json['id'],
       localImagePath: json['localImagePath'],
@@ -83,7 +74,7 @@ class Prediction {
       dx: json['dx'],
       diseaseName: json['diseaseName'],
       createdAt: DateTime.parse(json['createdAt']),
-      predicted: predicted,
+      predicted: formatPredicted(json['predicted']),
     );
   }
 
@@ -109,26 +100,29 @@ class Prediction {
         'dx': dx,
         'diseaseName': diseaseName,
         'createdAt': createdAt.toIso8601String(),
-        'predicted': predicted.toString(),
+        'predicted': predicted,
       };
 
-  bool renderable() {
-    if (id.isEmpty) {
-      return false;
+  @override
+  List<Object?> get props => [
+        id,
+        localImagePath,
+        remoteImagePath,
+        dx,
+        diseaseName,
+        createdAt,
+        predicted
+      ];
+
+  static bool formatPredicted(dynamic prediction) {
+    var predicted = prediction;
+
+    predicted ??= false;
+
+    if (predicted is String) {
+      predicted = predicted == 'true';
     }
 
-    if (dx.isEmpty) {
-      return false;
-    }
-
-    if (diseaseName.isEmpty) {
-      return false;
-    }
-
-    if (localImagePath.isEmpty && remoteImagePath.isEmpty) {
-      return false;
-    }
-
-    return true;
+    return predicted;
   }
 }

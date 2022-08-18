@@ -19,4 +19,6 @@ class StringDummy {
 
   static get base64String => 'cGF5bG9hZA==';
   static get notBase64String => 'payload';
+
+  static get filePath => 'generated/hello_world.dart';
 }

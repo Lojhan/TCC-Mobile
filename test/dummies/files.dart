@@ -3,8 +3,19 @@ import 'dart:typed_data';
 
 import 'package:camera/camera.dart';
 
-class FileDummy {
-  static File get file => File('file');
+import 'strings.dart';
 
-  static XFile get xfile => XFile.fromData(Uint8List.fromList([2]), length: 1);
+class FileDummy {
+  static File get file {
+    final file = File(StringDummy.filePath);
+    file.createSync(recursive: true);
+    File('./dummy.json');
+    return file;
+  }
+
+  static Future<XFile> get xfile async {
+    XFile xfile = XFile(StringDummy.filePath);
+    await xfile.saveTo(StringDummy.filePath);
+    return xfile;
+  }
 }

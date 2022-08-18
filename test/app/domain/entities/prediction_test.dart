@@ -1,85 +1,89 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mobile/app/domain/entities/prediction.dart';
+import 'package:mobile/app/domain/entities/prediction_payload.dart';
 
+import '../../../dummies/files.dart';
+import '../../../dummies/predictions.dart';
 import '../../../dummies/strings.dart';
 
 void main() {
-  Map<String, dynamic> remoteJsonPayload =
-      StringDummy.predictionRemoteJsonPayload;
-  Map<String, dynamic> localJsonPayload =
-      StringDummy.predictionLocalJsonPayload;
-
-  test("Should be renderable if all the params are given correctly", () {
-    Prediction prediction = Prediction(
-      id: '1',
-      remoteImagePath: 'hemlo',
-      dx: 'dx',
-      diseaseName: 'diseaseName',
-    );
-    expect(prediction.renderable(), true);
+  test('Should be equatable', () {
+    expect(perfectPrediction, equals(perfectPrediction));
   });
 
-  test("Should not be renderable if id is null or empty", () {
-    Prediction prediction = Prediction(
-      id: '',
-      remoteImagePath: 'hemlo',
-      dx: 'dx',
-      diseaseName: 'diseaseName',
-    );
-    expect(prediction.renderable(), false);
+  test('Should return a json map', () {
+    expect(perfectPrediction.toJson, {
+      'id': 'id',
+      'localImagePath': 'localImagePath',
+      'remoteImagePath': 'remoteImagePath',
+      'dx': 'dx',
+      'diseaseName': 'diseaseName',
+      'createdAt': DateTime.parse('2020-01-01').toIso8601String(),
+      'predicted': true,
+    });
   });
 
-  test("Should not be renderable if dx is null or empty", () {
-    Prediction prediction = Prediction(
-      id: '1',
-      remoteImagePath: 'hemlo',
-      dx: '',
-      diseaseName: 'diseaseName',
-    );
-    expect(prediction.renderable(), false);
+  test('Should correctly load from local', () {
+    Prediction prediction = Prediction.fromLocal({
+      'id': 'id',
+      'localImagePath': 'localImagePath',
+      'dx': 'dx',
+      'diseaseName': 'diseaseName',
+      'createdAt': DateTime.parse('2020-01-01').toIso8601String(),
+      'predicted': true,
+    });
+    expect(prediction.id, 'id');
+    expect(prediction.localImagePath, 'localImagePath');
+    expect(prediction.dx, 'dx');
+    expect(prediction.diseaseName, 'diseaseName');
+    expect(prediction.createdAt, DateTime.parse('2020-01-01'));
+    expect(prediction.predicted, true);
   });
 
-  test("Should not be renderable if diseaseName is null or empty", () {
-    Prediction prediction = Prediction(
-      id: '1',
-      remoteImagePath: 'hemlo',
-      dx: 'dx',
-      diseaseName: '',
-    );
-    expect(prediction.renderable(), false);
+  test('Should correctly load from remote', () {
+    Prediction prediction = Prediction.fromRemote({
+      'id': 'id',
+      'remoteImagePath': 'remoteImagePath',
+      'dx': 'dx',
+      'diseaseName': 'diseaseName',
+      'createdAt': DateTime.parse('2020-01-01').toIso8601String(),
+      'predicted': true,
+    });
+    expect(prediction.id, 'id');
+    expect(prediction.remoteImagePath, 'remoteImagePath');
+    expect(prediction.dx, 'dx');
+    expect(prediction.diseaseName, 'diseaseName');
+    expect(prediction.createdAt, DateTime.parse('2020-01-01'));
+    expect(prediction.predicted, true);
   });
 
-  test(
-      "Should not be renderable if localImagePath and remoteImagePath are null",
-      () {
-    Prediction prediction = Prediction(
-      id: '1',
-      dx: 'dx',
-      diseaseName: 'diseaseName',
-    );
-    expect(prediction.renderable(), false);
+  test('Should correctly load from json', () {
+    Prediction prediction = Prediction.fromJson({
+      'id': 'id',
+      'localImagePath': 'localImagePath',
+      'remoteImagePath': 'remoteImagePath',
+      'dx': 'dx',
+      'diseaseName': 'diseaseName',
+      'createdAt': DateTime.parse('2020-01-01').toIso8601String(),
+      'predicted': true,
+    });
+    expect(prediction.id, 'id');
+    expect(prediction.localImagePath, 'localImagePath');
+    expect(prediction.remoteImagePath, 'remoteImagePath');
+    expect(prediction.dx, 'dx');
+    expect(prediction.diseaseName, 'diseaseName');
+    expect(prediction.createdAt, DateTime.parse('2020-01-01'));
+    expect(prediction.predicted, true);
   });
 
-  test(
-      "Should not be renderable if localImagePath and remoteImagePath are empty",
-      () {
-    Prediction prediction = Prediction(
-      id: '1',
-      dx: 'dx',
-      diseaseName: 'diseaseName',
-      localImagePath: '',
-      remoteImagePath: '',
-    );
-    expect(prediction.renderable(), false);
-  });
-
-  test("Should be renderable id a correct remote json is given", () {
-    Prediction prediction = Prediction.fromRemote(remoteJsonPayload);
-    expect(prediction.renderable(), true);
-  });
-
-  test("Should be renderable if a correct local json is given", () {
-    Prediction prediction = Prediction.fromLocal(localJsonPayload);
-    expect(prediction.renderable(), true);
+  test('Should correctly load from payload', () async {
+    PredictionPayload payload =
+        await PredictionPayload.fromImageFilePath(FileDummy.file.path);
+    Prediction prediction = Prediction.fromPayload(payload);
+    expect(prediction.localImagePath, StringDummy.filePath);
+    expect(prediction.remoteImagePath, 'not uploaded');
+    expect(prediction.dx, 'undetermined');
+    expect(prediction.diseaseName, 'undetermined');
+    expect(prediction.predicted, false);
   });
 }
