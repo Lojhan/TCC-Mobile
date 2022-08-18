@@ -10,8 +10,15 @@ class PredictDiseaseService implements IPredictDiseaseService {
 
   @override
   Future<Prediction> call({required PredictionPayload payload}) async {
-    Response<Map<String, dynamic>> response =
-        await dioInstance.post('$baseUrl/predict', data: payload.toJson());
+    final file = payload.payload;
+    String fileName = file.path.split('/').last;
+    String path = file.path;
+
+    final multipart = await MultipartFile.fromFile(path, filename: fileName);
+
+    FormData data = FormData.fromMap({"payload": multipart});
+    Response response = await dioInstance.post(baseUrl, data: data);
+
     return Prediction.fromRemote(response.data!);
   }
 }

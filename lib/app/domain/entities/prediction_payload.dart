@@ -10,9 +10,14 @@ class PredictionPayload {
     required this.payload,
   });
 
-  static fromImageXFile(XFile image) async {
+  static Future<PredictionPayload> fromImageXFile(XFile image) async {
     Uint8List bytes = await image.readAsBytes();
     File payload = File.fromRawPath(bytes);
+    return PredictionPayload(payload: payload);
+  }
+
+  static Future<PredictionPayload> fromImageFilePath(String path) async {
+    File payload = File(path);
     return PredictionPayload(payload: payload);
   }
 
@@ -23,7 +28,7 @@ class PredictionPayload {
 
   toJson() {
     return {
-      'payload': payload.path,
+      'payload': payload,
     };
   }
 }

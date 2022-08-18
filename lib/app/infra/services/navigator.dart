@@ -19,7 +19,7 @@ class NavigationService {
     return navigationKey.currentState?.push(rn);
   }
 
-  void goback() {
-    return navigationKey.currentState?.pop();
+  void goback<T>([T? result]) {
+    return navigationKey.currentState?.pop(result);
   }
 }

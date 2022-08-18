@@ -14,3 +14,22 @@ class PredictDiseaseEvent extends PDEvent {
     required this.payload,
   });
 }
+
+class PredictDiseaseFailureEvent extends PDEvent {
+  final PredictionPayload payload;
+  final Failure failure;
+  const PredictDiseaseFailureEvent({
+    required this.payload,
+    required this.failure,
+  });
+}
+
+class PredictDiseaseSuccessEvent extends PDEvent {
+  final Prediction prediction;
+  final PredictionPayload payload;
+
+  const PredictDiseaseSuccessEvent({
+    required this.payload,
+    required this.prediction,
+  });
+}

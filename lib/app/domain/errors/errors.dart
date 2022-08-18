@@ -7,3 +7,5 @@ class FailedToLoadPredictionsError extends Failure {}
 class FailedToLoadPredictionError extends Failure {}
 
 class InvalidPredictionPayloadError extends Failure {}
+
+class NoCamerasAvailableException extends Failure {}
