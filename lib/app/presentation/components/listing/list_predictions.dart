@@ -15,21 +15,51 @@ class ListPredictionsComponent extends StatelessWidget {
         bloc.add(ListPredictionsEvent());
       });
 
-  Widget initial(BuildContext context, ListPredictionsState state) =>
-      const Center(
-        child: Text('Predict disease'),
-      );
+  Widget initial(BuildContext context, ListPredictionsState state) => Center(
+          child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Image.asset(
+            'assets/images/neural.png',
+            width: 200,
+          ),
+        ],
+      ));
 
   Widget loading(BuildContext context, ListPredictionsState state) =>
       const LoadingComponent();
 
   Widget success(BuildContext context, ListPredictionsState state) => Padding(
         padding: const EdgeInsets.all(8),
-        child: ListView.builder(
-          itemCount: state.predictions.length,
-          itemBuilder: (context, index) => PredictionCard(
-            prediction: state.predictions[index],
-          ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ListTile(
+              isThreeLine: true,
+              contentPadding: const EdgeInsets.all(12),
+              dense: true,
+              leading: Image.asset(
+                'assets/images/neural.png',
+                width: 200,
+                height: 200,
+              ),
+              title: Text('Predictions: ${state.predictions.length}'),
+              subtitle: Text(
+                '''Awaiting retry: ${state.awaitingRetry.length}\nUnconfirmed: ${state.predictions.where((p) => p.predicted).length}''',
+                maxLines: 2,
+                style: const TextStyle(fontSize: 12, height: 1.5),
+              ),
+            ),
+            Expanded(
+              child: ListView.builder(
+                shrinkWrap: true,
+                itemCount: state.predictions.length,
+                itemBuilder: (context, index) => PredictionCard(
+                  prediction: state.predictions[index],
+                ),
+              ),
+            ),
+          ],
         ),
       );
 

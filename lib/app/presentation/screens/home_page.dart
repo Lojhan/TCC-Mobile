@@ -32,7 +32,7 @@ class HomePage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Home Page'),
+        title: const Text('Skin Cancer Predictor'),
       ),
       body: BlocListener<PredictDiseaseBloc, PredictDiseaseState>(
         bloc: predictDiseaseBloc,

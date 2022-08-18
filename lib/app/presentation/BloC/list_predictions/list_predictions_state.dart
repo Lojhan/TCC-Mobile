@@ -76,6 +76,8 @@ class ListPredictionsState extends Equatable implements StatePayload {
     );
   }
 
+  get awaitingRetry => predictions.where((p) => !p.predicted).toList();
+
   @override
   get state => predictions;
 
