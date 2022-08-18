@@ -7,16 +7,7 @@ abstract class LPEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class ListPredictionsEvent extends LPEvent {
-  final List<Prediction> predictions;
-
-  const ListPredictionsEvent({
-    required this.predictions,
-  });
-
-  @override
-  List<Object> get props => [predictions];
-}
+class ListPredictionsEvent extends LPEvent {}
 
 class LoadRemotePredictionsEvent extends LPEvent {}
 

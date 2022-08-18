@@ -1,35 +1,28 @@
 import 'dart:async';
 
-import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_modular/flutter_modular.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:mobile/app/domain/entities/prediction_payload.dart';
-import 'package:mobile/app/domain/errors/errors.dart';
 import 'package:mobile/app/presentation/BloC/predict_disease/predict_disease_bloc.dart';
-import 'package:mobile/app/presentation/screens/camera_page.dart';
 
 FutureOr<void> initPrediting(
   BuildContext context,
   PredictDiseaseBloc bloc,
+  ImageSource source,
 ) async {
-  WidgetsFlutterBinding.ensureInitialized();
-  final cameras = await availableCameras();
+  try {
+    WidgetsFlutterBinding.ensureInitialized();
+    final ImagePicker picker = ImagePicker();
 
-  if (cameras.isEmpty) {
-    throw NoCamerasAvailableException();
+    final XFile? file = await picker.pickImage(source: source);
+
+    if (file == null) {
+      return;
+    }
+
+    PredictionPayload p = await PredictionPayload.fromImageFilePath(file.path);
+    return bloc.add(PredictDiseaseEvent(payload: p));
+  } catch (e) {
+    print(e);
   }
-
-  String? file = await Modular.to.push(
-    MaterialPageRoute(
-      builder: (context) => TakePictureScreen(camera: cameras.first),
-    ),
-  );
-
-  if (file == null) {
-    return;
-  }
-
-  PredictionPayload payload = await PredictionPayload.fromImageFilePath(file);
-
-  return bloc.add(PredictDiseaseEvent(payload: payload));
 }

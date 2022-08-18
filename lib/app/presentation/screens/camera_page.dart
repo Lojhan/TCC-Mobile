@@ -3,6 +3,9 @@ import 'dart:io';
 
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
+import 'package:mobile/app/domain/errors/errors.dart';
+import 'package:mobile/app/infra/services/navigator.dart';
 import 'package:path_provider/path_provider.dart';
 
 class TakePictureScreen extends StatefulWidget {
@@ -15,6 +18,8 @@ class TakePictureScreen extends StatefulWidget {
 }
 
 class TakePictureScreenState extends State<TakePictureScreen> {
+  late Future<void> _initializeControllerFuture;
+
   late CameraController controller;
 
   List<Map<IconData, FlashMode>> flashmodes = [
@@ -29,12 +34,17 @@ class TakePictureScreenState extends State<TakePictureScreen> {
   void initState() {
     super.initState();
     controller = CameraController(widget.camera, ResolutionPreset.ultraHigh);
-    controller.initialize().then((_) {
-      if (!mounted) {
-        return;
-      }
-      setState(() {});
-    });
+    _initializeControllerFuture = controller.initialize();
+    // .then((_) {
+    //   if (!mounted) {
+    //     return;
+    //   }
+    //   setState(() {});
+    // }).catchError((Object e) {
+    //   if (e is CameraException) {
+    //     throw CameraPremissionException();
+    //   }
+    // });
   }
 
   void nextFlashMode() {
@@ -65,9 +75,16 @@ class TakePictureScreenState extends State<TakePictureScreen> {
     await Directory(dirPath).create(recursive: true);
     final String filePath = '$dirPath/${timestamp()}.jpg';
 
-    XFile file = await controller.takePicture();
+    XFile file = await controller
+        .takePicture()
+        .timeout(const Duration(seconds: 2))
+        .catchError((e) {
+      throw CameraPremissionException();
+    });
+    await controller.dispose();
     await file.saveTo(filePath);
-    Navigator.of(context).pop(filePath);
+
+    Modular.to.pop(file.path);
   }
 
   Widget cameraPreview() {
@@ -75,7 +92,18 @@ class TakePictureScreenState extends State<TakePictureScreen> {
       top: MediaQuery.of(context).size.height * .1,
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height * .75,
-      child: CameraPreview(controller),
+      child: FutureBuilder(
+          future: _initializeControllerFuture,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.done) {
+              return AspectRatio(
+                aspectRatio: controller.value.aspectRatio,
+                child: CameraPreview(controller),
+              );
+            } else {
+              return const Center(child: CircularProgressIndicator());
+            }
+          }),
     );
   }
 
@@ -107,10 +135,10 @@ class TakePictureScreenState extends State<TakePictureScreen> {
 
   Widget goBackIcon() {
     return Positioned(
-      top: MediaQuery.of(context).size.height * .025,
+      top: MediaQuery.of(context).size.height * .03,
       left: MediaQuery.of(context).size.width * .02,
       child: ElevatedButton(
-        onPressed: () => Navigator.of(context).pop(),
+        onPressed: () => Modular.to.pop(),
         child: Row(
           children: const [
             Icon(Icons.arrow_back),

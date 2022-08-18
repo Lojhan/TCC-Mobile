@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:mobile/app/presentation/BloC/list_predictions/list_predictions_bloc.dart';
+import 'package:mobile/app/presentation/BloC/blocs.dart';
 import 'package:mobile/app/presentation/components/misc/decide_from_state.dart';
 import 'package:mobile/app/presentation/components/misc/failure.dart';
 import 'package:mobile/app/presentation/components/misc/loading.dart';
@@ -11,7 +11,9 @@ class ListPredictionsComponent extends StatelessWidget {
   final ListPredictionsBloc bloc = Modular.get<ListPredictionsBloc>();
   ListPredictionsComponent({Key? key}) : super(key: key);
 
-  Widget failure(BuildContext context) => FailureComponent(onRetry: () {});
+  Widget failure(BuildContext context) => FailureComponent(onRetry: () {
+        bloc.add(ListPredictionsEvent());
+      });
 
   Widget initial(BuildContext context, ListPredictionsState state) =>
       const Center(
@@ -21,11 +23,14 @@ class ListPredictionsComponent extends StatelessWidget {
   Widget loading(BuildContext context, ListPredictionsState state) =>
       const LoadingComponent();
 
-  Widget success(BuildContext context, ListPredictionsState state) =>
-      ListView.builder(
-        itemCount: state.predictions.length,
-        itemBuilder: (context, index) =>
-            PredictionCard(prediction: state.predictions[index]),
+  Widget success(BuildContext context, ListPredictionsState state) => Padding(
+        padding: const EdgeInsets.all(8),
+        child: ListView.builder(
+          itemCount: state.predictions.length,
+          itemBuilder: (context, index) => PredictionCard(
+            prediction: state.predictions[index],
+          ),
+        ),
       );
 
   @override

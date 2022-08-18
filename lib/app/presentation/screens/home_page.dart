@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:mobile/app/domain/errors/errors.dart';
 import 'package:mobile/app/presentation/BloC/predict_disease/predict_disease_bloc.dart';
 import 'package:mobile/app/presentation/components/alert_dialog/prediction_failure.dart';
@@ -17,9 +18,11 @@ class HomePage extends StatelessWidget {
   FutureOr<void> prediction(
       BuildContext context, PredictDiseaseBloc bloc) async {
     try {
-      await initPrediting(context, bloc);
+      await initPrediting(context, bloc, ImageSource.camera);
     } on NoCamerasAvailableException {
       showNoCamerasToast(context);
+    } on CameraPremissionException {
+      // TODO: show permission dialog
     }
   }
 

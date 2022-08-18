@@ -9,3 +9,5 @@ class FailedToLoadPredictionError extends Failure {}
 class InvalidPredictionPayloadError extends Failure {}
 
 class NoCamerasAvailableException extends Failure {}
+
+class CameraPremissionException extends Failure {}

@@ -9,18 +9,15 @@ import 'package:mobile/app/infra/interfaces/i_predictions_repository.dart';
 import 'package:mobile/app/infra/repositories/predictions_repository.dart';
 import 'package:mobile/app/infra/services/predict_disease_service.dart';
 import 'package:mobile/app/infra/services/predictions_service.dart';
-import 'package:mobile/app/presentation/BloC/list_predictions/list_predictions_bloc.dart';
 import 'package:mobile/app/presentation/screens/home_page.dart';
-import 'package:mobile/app/infra/services/navigator.dart';
 
 import 'presentation/BloC/blocs.dart';
 
 class AppModule extends Module {
-  String predictionsBaseUrl = 'http://192.168.130.4:8080/predict';
+  String predictionsBaseUrl = 'http://192.168.15.10:8080/predict';
 
   @override
   List<Bind> get binds => [
-        Bind.singleton((inject) => NavigationService()),
         Bind.factory((inject) => Dio()),
         // Bind.singleton((inject) => PredictionLocalDataSource()),
         Bind.singleton((inject) => PredictionRemoteDatasource(

@@ -6,21 +6,20 @@ import 'package:mobile/helpers/valid_datestring.dart';
 
 class Prediction {
   final String id;
-  final String? localImagePath;
-  final String? remoteImagePath;
+  final String localImagePath;
+  final String remoteImagePath;
   final String dx;
   final String diseaseName;
   final DateTime createdAt;
   final bool predicted;
 
-  get image => localImagePath != null && localImagePath!.isNotEmpty
-      ? localImagePath
-      : remoteImagePath;
+  String get image =>
+      localImagePath.isNotEmpty ? localImagePath : remoteImagePath;
 
   Prediction({
     required this.id,
-    this.localImagePath,
-    this.remoteImagePath,
+    this.localImagePath = '',
+    this.remoteImagePath = '',
     required this.dx,
     required this.diseaseName,
     required this.createdAt,
@@ -70,6 +69,13 @@ class Prediction {
   }
 
   factory Prediction.fromJson(Map<String, dynamic> json) {
+    var predicted = json['predicted'];
+
+    predicted ??= false;
+
+    if (predicted is String) {
+      predicted = predicted == 'true';
+    }
     return Prediction(
       id: json['id'],
       localImagePath: json['localImagePath'],
@@ -77,7 +83,7 @@ class Prediction {
       dx: json['dx'],
       diseaseName: json['diseaseName'],
       createdAt: DateTime.parse(json['createdAt']),
-      predicted: json['predicted'],
+      predicted: predicted,
     );
   }
 
@@ -119,14 +125,8 @@ class Prediction {
       return false;
     }
 
-    if (localImagePath == null && remoteImagePath == null) {
+    if (localImagePath.isEmpty && remoteImagePath.isEmpty) {
       return false;
-    }
-
-    if (localImagePath != null && remoteImagePath != null) {
-      if (localImagePath!.isEmpty && remoteImagePath!.isEmpty) {
-        return false;
-      }
     }
 
     return true;
