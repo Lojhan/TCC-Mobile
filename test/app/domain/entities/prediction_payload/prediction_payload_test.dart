@@ -35,9 +35,8 @@ void main() {
     expect(payload.toJson(), {'payload': file});
   });
 
-  test('', () {});
-
-  test('', () {});
-
-  test('', () {});
+  test('Should correcly return props', () {
+    PredictionPayload payload = PredictionPayload(payload: file);
+    expect(payload.props, [file]);
+  });
 }

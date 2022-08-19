@@ -25,30 +25,23 @@ class Prediction extends Equatable {
   });
 
   factory Prediction.fromRemote(Map<String, dynamic> json) {
-    String dateString = json['createdAt'];
     return Prediction(
       id: json['id'],
       remoteImagePath: json['remoteImagePath'],
       dx: json['dx'],
       diseaseName: json['diseaseName'],
-      createdAt: validDateString(dateString)
-          ? DateTime.parse(dateString)
-          : DateTime.now(),
+      createdAt: formatDate(json['createdAt']),
       predicted: json['predicted'],
     );
   }
 
   factory Prediction.fromLocal(Map<String, dynamic> payload) {
-    String dateString = payload['createdAt'];
-
     Prediction prediction = Prediction(
       id: payload['id'],
       localImagePath: payload['localImagePath'],
       dx: payload['dx'],
       diseaseName: payload['diseaseName'],
-      createdAt: validDateString(dateString)
-          ? DateTime.parse(dateString)
-          : DateTime.now(),
+      createdAt: formatDate(payload['createdAt']),
       predicted: formatPredicted(payload['predicted']),
     );
     return prediction;
@@ -73,7 +66,7 @@ class Prediction extends Equatable {
       remoteImagePath: json['remoteImagePath'],
       dx: json['dx'],
       diseaseName: json['diseaseName'],
-      createdAt: DateTime.parse(json['createdAt']),
+      createdAt: formatDate(json['createdAt']),
       predicted: formatPredicted(json['predicted']),
     );
   }
@@ -124,5 +117,16 @@ class Prediction extends Equatable {
     }
 
     return predicted;
+  }
+
+  static DateTime formatDate(dynamic date) {
+    if (date is DateTime) {
+      return date;
+    }
+    bool valid = validDateString(date);
+    if (valid) {
+      return DateTime.parse(date);
+    }
+    return DateTime.now();
   }
 }

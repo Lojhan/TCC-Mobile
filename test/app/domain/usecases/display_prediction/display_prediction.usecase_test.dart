@@ -11,6 +11,7 @@ import '../../../../dummies/predictions.dart';
 import 'display_prediction.usecase_test.mocks.dart';
 
 @GenerateMocks([IPredictionsService])
+final predictionFailure = Left<Failure, Prediction>(Failure()).runtimeType;
 void main() {
   IPredictionsService predictionsService = MockIPredictionsService();
   DisplayPrediction displayPrediction = DisplayPrediction(
@@ -36,29 +37,27 @@ void main() {
     await untilCalled(predictionsService.getPrediction(id: ''));
 
     verify(predictionsService.getPrediction(id: '')).called(1);
-    expect(prediction.runtimeType,
-        Left<Failure, Prediction>(Failure()).runtimeType);
+    expect(prediction.runtimeType, predictionFailure);
   });
 
   test('Should return Left if the service fails', () async {
-    when(predictionsService.getPrediction(id: 'id')).thenThrow(Failure());
+    when(predictionsService.getPrediction(id: ''))
+        .thenAnswer((_) async => Left(Failure()));
 
     final prediction = await displayPrediction('');
     await untilCalled(predictionsService.getPrediction(id: ''));
 
     verify(predictionsService.getPrediction(id: '')).called(1);
-    expect(prediction.runtimeType,
-        Left<Failure, Prediction>(Failure()).runtimeType);
+    expect(prediction.runtimeType, predictionFailure);
   });
 
   test('Should return Left if the service throws', () async {
-    when(predictionsService.getPrediction(id: 'id')).thenThrow(Exception());
+    when(predictionsService.getPrediction(id: '')).thenThrow(Failure());
 
     final prediction = await displayPrediction('');
     await untilCalled(predictionsService.getPrediction(id: ''));
 
     verify(predictionsService.getPrediction(id: '')).called(1);
-    expect(prediction.runtimeType,
-        Left<Failure, Prediction>(Failure()).runtimeType);
+    expect(prediction.runtimeType, predictionFailure);
   });
 }

@@ -45,6 +45,18 @@ void main() {
   });
 
   test('Should return left if the service throws', () async {
+    when(predictionsService.listPredictions()).thenThrow(Failure());
+
+    final predictions = await listPredictions();
+
+    await untilCalled(predictionsService.listPredictions());
+
+    verify(predictionsService.listPredictions()).called(1);
+    expect(predictions.runtimeType,
+        Left<Failure, List<Prediction>>(Failure()).runtimeType);
+  });
+
+  test('Should return left if the service excepts', () async {
     when(predictionsService.listPredictions()).thenThrow(Exception());
 
     final predictions = await listPredictions();

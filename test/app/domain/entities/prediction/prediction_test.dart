@@ -97,4 +97,36 @@ void main() {
     expect(prediction.diseaseName, StringDummy.diseaseName);
     expect(prediction.predicted, true);
   });
+
+  test('Should correctly list props', () {
+    expect(perfectPrediction.props, [
+      perfectPrediction.id,
+      perfectPrediction.localImagePath,
+      perfectPrediction.remoteImagePath,
+      perfectPrediction.dx,
+      perfectPrediction.diseaseName,
+      perfectPrediction.createdAt,
+      perfectPrediction.predicted,
+    ]);
+  });
+
+  test('Should correcly map bools', () {
+    expect(Prediction.formatPredicted(true), true);
+    expect(Prediction.formatPredicted(false), false);
+    expect(Prediction.formatPredicted('true'), true);
+    expect(Prediction.formatPredicted('false'), false);
+    expect(Prediction.formatPredicted(''), false);
+    expect(Prediction.formatPredicted(null), false);
+  });
+
+  test('Should correctly format date', () {
+    DateTime date = DateTime.parse(StringDummy.date);
+    expect(Prediction.formatDate(date), date);
+    expect(Prediction.formatDate(StringDummy.date), date);
+    expect(Prediction.formatDate(null), isA<DateTime>());
+  });
+
+  test('Should return an image path', () {
+    expect(perfectPrediction.image, StringDummy.localImagePath);
+  });
 }

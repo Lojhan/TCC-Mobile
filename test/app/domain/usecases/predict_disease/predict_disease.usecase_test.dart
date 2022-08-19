@@ -43,9 +43,28 @@ void main() {
         Left<Failure, Prediction>(Failure()).runtimeType);
   });
 
+  test('Should return left if the throws failure', () async {
+    when(predictionsService.predictDisease(payload: perfectPredictionPayload))
+        .thenThrow(Failure());
+    final prediction = await predictDisease(payload: perfectPredictionPayload);
+
+    expect(prediction.runtimeType,
+        Left<Failure, Prediction>(Failure()).runtimeType);
+  });
+
   test('Should return left if the service throws', () async {
     when(predictionsService.predictDisease(payload: perfectPredictionPayload))
         .thenThrow(Exception());
+    final prediction = await predictDisease(payload: perfectPredictionPayload);
+
+    expect(prediction.runtimeType,
+        Left<Failure, Prediction>(Failure()).runtimeType);
+  });
+
+  test('Should return left if the service throws InvalidPredictionPayloadError',
+      () async {
+    when(predictionsService.predictDisease(payload: perfectPredictionPayload))
+        .thenThrow(InvalidPredictionPayloadError());
     final prediction = await predictDisease(payload: perfectPredictionPayload);
 
     expect(prediction.runtimeType,
