@@ -6,7 +6,7 @@ import 'package:mobile/app/domain/entities/prediction_payload.dart';
 import 'package:mockito/annotations.dart';
 
 import '../../../../dummies/files.dart';
-import '../../../../dummies/predictionPayloads.dart';
+import '../../../../dummies/payloads.dart';
 
 @GenerateMocks([XFile, File])
 void main() {

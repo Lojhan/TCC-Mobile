@@ -7,7 +7,7 @@ import 'package:mobile/app/domain/usecases/predict_disease.usecase.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
-import '../../../../dummies/predictionPayloads.dart';
+import '../../../../dummies/payloads.dart';
 import '../../../../dummies/predictions.dart';
 import 'predict_disease.usecase_test.mocks.dart';
 

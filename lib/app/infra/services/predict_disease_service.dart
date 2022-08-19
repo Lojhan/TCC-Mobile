@@ -10,6 +10,10 @@ class PredictDiseaseService implements IPredictDiseaseService {
 
   @override
   Future<Prediction> call({required PredictionPayload payload}) async {
+    if (!payload.valid()) {
+      // TODO: create special exception for this
+      throw Exception('Invalid payload');
+    }
     final file = payload.payload;
     String fileName = file.path.split('/').last;
     String path = file.path;
@@ -18,7 +22,7 @@ class PredictDiseaseService implements IPredictDiseaseService {
 
     FormData data = FormData.fromMap({"payload": multipart});
     Response response = await dioInstance.post(baseUrl, data: data);
-
-    return Prediction.fromRemote(response.data!);
+    final prediction = Prediction.fromRemote(response.data);
+    return Prediction.mergeResponsePayload(prediction, payload);
   }
 }

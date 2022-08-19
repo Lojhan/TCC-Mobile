@@ -10,19 +10,15 @@ FutureOr<void> initPrediting(
   PredictDiseaseBloc bloc,
   ImageSource source,
 ) async {
-  try {
-    WidgetsFlutterBinding.ensureInitialized();
-    final ImagePicker picker = ImagePicker();
+  WidgetsFlutterBinding.ensureInitialized();
+  final ImagePicker picker = ImagePicker();
 
-    final XFile? file = await picker.pickImage(source: source);
+  final XFile? file = await picker.pickImage(source: source);
 
-    if (file == null) {
-      return;
-    }
-
-    PredictionPayload p = await PredictionPayload.fromImageFilePath(file.path);
-    return bloc.add(PredictDiseaseEvent(payload: p));
-  } catch (e) {
-    print(e);
+  if (file == null) {
+    return;
   }
+
+  PredictionPayload p = await PredictionPayload.fromImageFilePath(file.path);
+  return bloc.add(PredictDiseaseEvent(payload: p));
 }

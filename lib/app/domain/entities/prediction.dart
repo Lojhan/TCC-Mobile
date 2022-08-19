@@ -27,11 +27,12 @@ class Prediction extends Equatable {
   factory Prediction.fromRemote(Map<String, dynamic> json) {
     return Prediction(
       id: json['id'],
+      localImagePath: '',
       remoteImagePath: json['remoteImagePath'],
       dx: json['dx'],
       diseaseName: json['diseaseName'],
       createdAt: formatDate(json['createdAt']),
-      predicted: json['predicted'],
+      predicted: formatPredicted(json['predicted']),
     );
   }
 
@@ -82,7 +83,7 @@ class Prediction extends Equatable {
       dx: prediction.dx,
       diseaseName: prediction.diseaseName,
       createdAt: prediction.createdAt,
-      predicted: prediction.predicted,
+      predicted: formatPredicted(prediction.predicted),
     );
   }
 

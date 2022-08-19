@@ -41,6 +41,7 @@ dependencies:
   hydrated_bloc: ^8.1.0
   image_picker: ^0.8.5+3
   mockito: ^5.3.0
+  http_mock_adapter: ^0.3.3
 
 dev_dependencies:
   flutter_test:

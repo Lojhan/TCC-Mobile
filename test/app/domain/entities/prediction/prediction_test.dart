@@ -3,7 +3,7 @@ import 'package:mobile/app/domain/entities/prediction.dart';
 import 'package:mobile/app/domain/entities/prediction_payload.dart';
 
 import '../../../../dummies/files.dart';
-import '../../../../dummies/predictionPayloads.dart';
+import '../../../../dummies/payloads.dart';
 import '../../../../dummies/predictions.dart';
 import '../../../../dummies/strings.dart';
 
@@ -14,66 +14,67 @@ void main() {
 
   test('Should return a json map', () {
     expect(perfectPrediction.toJson, {
-      'id': 'id',
-      'localImagePath': 'localImagePath',
-      'remoteImagePath': 'remoteImagePath',
-      'dx': 'dx',
-      'diseaseName': 'diseaseName',
-      'createdAt': DateTime.parse('2020-01-01').toIso8601String(),
+      'id': StringDummy.id,
+      'localImagePath': StringDummy.localImagePath,
+      'remoteImagePath': StringDummy.remoteImagePath,
+      'dx': StringDummy.dx,
+      'diseaseName': StringDummy.diseaseName,
+      'createdAt': DateTime.parse(StringDummy.date).toIso8601String(),
       'predicted': true,
     });
   });
 
   test('Should correctly load from local', () {
     Prediction prediction = Prediction.fromLocal({
-      'id': 'id',
-      'localImagePath': 'localImagePath',
-      'dx': 'dx',
-      'diseaseName': 'diseaseName',
-      'createdAt': DateTime.parse('2020-01-01').toIso8601String(),
-      'predicted': true,
+      'id': StringDummy.id,
+      'localImagePath': StringDummy.localImagePath,
+      'dx': StringDummy.dx,
+      'diseaseName': StringDummy.diseaseName,
+      'createdAt': DateTime.parse(StringDummy.date).toIso8601String(),
+      'predicted': 'true',
     });
-    expect(prediction.id, 'id');
-    expect(prediction.localImagePath, 'localImagePath');
-    expect(prediction.dx, 'dx');
-    expect(prediction.diseaseName, 'diseaseName');
-    expect(prediction.createdAt, DateTime.parse('2020-01-01'));
+    expect(prediction.id, StringDummy.id);
+    expect(prediction.localImagePath, StringDummy.localImagePath);
+    expect(prediction.dx, StringDummy.dx);
+    expect(prediction.diseaseName, StringDummy.diseaseName);
+    expect(prediction.createdAt, DateTime.parse(StringDummy.date));
     expect(prediction.predicted, true);
   });
 
   test('Should correctly load from remote', () {
     Prediction prediction = Prediction.fromRemote({
-      'id': 'id',
-      'remoteImagePath': 'remoteImagePath',
-      'dx': 'dx',
-      'diseaseName': 'diseaseName',
-      'createdAt': DateTime.parse('2020-01-01').toIso8601String(),
-      'predicted': true,
+      'id': StringDummy.id,
+      'remoteImagePath': StringDummy.remoteImagePath,
+      'dx': StringDummy.dx,
+      'diseaseName': StringDummy.diseaseName,
+      'createdAt': DateTime.parse(StringDummy.date).toIso8601String(),
+      'predicted': 'true',
     });
-    expect(prediction.id, 'id');
-    expect(prediction.remoteImagePath, 'remoteImagePath');
-    expect(prediction.dx, 'dx');
-    expect(prediction.diseaseName, 'diseaseName');
-    expect(prediction.createdAt, DateTime.parse('2020-01-01'));
+    expect(prediction.id, StringDummy.id);
+    expect(prediction.localImagePath, '');
+    expect(prediction.remoteImagePath, StringDummy.remoteImagePath);
+    expect(prediction.dx, StringDummy.dx);
+    expect(prediction.diseaseName, StringDummy.diseaseName);
+    expect(prediction.createdAt, DateTime.parse(StringDummy.date));
     expect(prediction.predicted, true);
   });
 
   test('Should correctly load from json', () {
     Prediction prediction = Prediction.fromJson({
-      'id': 'id',
-      'localImagePath': 'localImagePath',
-      'remoteImagePath': 'remoteImagePath',
-      'dx': 'dx',
-      'diseaseName': 'diseaseName',
-      'createdAt': DateTime.parse('2020-01-01').toIso8601String(),
-      'predicted': true,
+      'id': StringDummy.id,
+      'localImagePath': StringDummy.localImagePath,
+      'remoteImagePath': StringDummy.remoteImagePath,
+      'dx': StringDummy.dx,
+      'diseaseName': StringDummy.diseaseName,
+      'createdAt': DateTime.parse(StringDummy.date).toIso8601String(),
+      'predicted': 'true',
     });
-    expect(prediction.id, 'id');
-    expect(prediction.localImagePath, 'localImagePath');
-    expect(prediction.remoteImagePath, 'remoteImagePath');
-    expect(prediction.dx, 'dx');
-    expect(prediction.diseaseName, 'diseaseName');
-    expect(prediction.createdAt, DateTime.parse('2020-01-01'));
+    expect(prediction.id, StringDummy.id);
+    expect(prediction.localImagePath, StringDummy.localImagePath);
+    expect(prediction.remoteImagePath, StringDummy.remoteImagePath);
+    expect(prediction.dx, StringDummy.dx);
+    expect(prediction.diseaseName, StringDummy.diseaseName);
+    expect(prediction.createdAt, DateTime.parse(StringDummy.date));
     expect(prediction.predicted, true);
   });
 

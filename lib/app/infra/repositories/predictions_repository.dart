@@ -1,8 +1,6 @@
-import 'package:mobile/app/domain/entities/prediction_payload.dart';
 import 'package:mobile/app/domain/errors/errors.dart';
 import 'package:mobile/app/domain/entities/prediction.dart';
 import 'package:dartz/dartz.dart';
-import 'package:mobile/app/external/datasources/prediction_local_datasource.dart';
 import 'package:mobile/app/external/datasources/prediction_remote_datasource.dart';
 import 'package:mobile/app/infra/interfaces/i_predictions_repository.dart';
 
@@ -38,19 +36,4 @@ class PredictionsRepository implements IPredictionsRepository {
       return Left(Failure());
     }
   }
-
-  // @override
-  // Future<Either<Failure, Prediction>> saveForLater(
-  //     {required PredictionPayload payload}) async {
-  //   try {
-  //     Prediction pred = Prediction.fromPayload(payload);
-  //     await localDatasource.insert(pred.toJson(true));
-
-  //     return Right(pred);
-  //   } on Failure {
-  //     return Left(Failure());
-  //   } catch (e) {
-  //     return Left(Failure());
-  //   }
-  // }
 }

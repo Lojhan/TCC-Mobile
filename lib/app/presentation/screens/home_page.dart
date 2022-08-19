@@ -23,6 +23,8 @@ class HomePage extends StatelessWidget {
       showNoCamerasToast(context);
     } on CameraPremissionException {
       // TODO: show permission dialog
+    } on Exception catch (_) {
+      // TODO: show error dialog
     }
   }
 
