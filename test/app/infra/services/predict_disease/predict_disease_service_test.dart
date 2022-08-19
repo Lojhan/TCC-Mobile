@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http_mock_adapter/http_mock_adapter.dart';
+import 'package:mobile/app/domain/errors/errors.dart';
 import 'package:mobile/app/infra/services/predict_disease_service.dart';
 
 import '../../../../dummies/payloads.dart';
@@ -25,7 +26,9 @@ void main() async {
   });
 
   test('Should throw on invalid payload', () async {
-    expect(() async => await service(payload: invalidPredictionPayload),
-        throwsException);
+    expect(
+      () async => await service(payload: invalidPredictionPayload),
+      throwsA(isA<InvalidPredictionPayloadError>()),
+    );
   });
 }

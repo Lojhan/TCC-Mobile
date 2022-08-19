@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:mobile/app/domain/entities/prediction_payload.dart';
 import 'package:mobile/app/domain/entities/prediction.dart';
+import 'package:mobile/app/domain/errors/errors.dart';
 import 'package:mobile/app/infra/interfaces/datasources/i_predict_service.dart';
 
 class PredictDiseaseService implements IPredictDiseaseService {
@@ -11,8 +12,7 @@ class PredictDiseaseService implements IPredictDiseaseService {
   @override
   Future<Prediction> call({required PredictionPayload payload}) async {
     if (!payload.valid()) {
-      // TODO: create special exception for this
-      throw Exception('Invalid payload');
+      throw InvalidPredictionPayloadError();
     }
     final file = payload.payload;
     String fileName = file.path.split('/').last;

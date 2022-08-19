@@ -5,7 +5,7 @@ import 'package:mobile/app/external/datasources/prediction_remote_datasource.dar
 import 'package:mobile/app/infra/interfaces/i_predictions_repository.dart';
 
 class PredictionsRepository implements IPredictionsRepository {
-  late PredictionRemoteDatasource remoteDatasource;
+  final PredictionRemoteDatasource remoteDatasource;
 
   PredictionsRepository({
     required this.remoteDatasource,
@@ -17,7 +17,7 @@ class PredictionsRepository implements IPredictionsRepository {
   }) async {
     try {
       final data = await remoteDatasource.getById(id);
-      return Right(data);
+      return Right(data!);
     } on Failure {
       return Left(Failure());
     } catch (e) {
@@ -29,7 +29,7 @@ class PredictionsRepository implements IPredictionsRepository {
   Future<Either<Failure, List<Prediction>>> listPredictions() async {
     try {
       final data = await remoteDatasource.list();
-      return Right(data);
+      return Right(data!);
     } on Failure {
       return Left(Failure());
     } catch (e) {
