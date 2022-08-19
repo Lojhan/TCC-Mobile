@@ -5,16 +5,16 @@ import 'package:camera/camera.dart';
 import 'package:equatable/equatable.dart';
 
 class PredictionPayload extends Equatable {
-  File payload;
+  final File payload;
 
-  PredictionPayload({
+  const PredictionPayload({
     required this.payload,
   });
 
   static Future<PredictionPayload> fromImageXFile(XFile image) async {
     Uint8List bytes = await image.readAsBytes();
     File payload = File.fromRawPath(bytes);
-    await payload.create();
+    await payload.create(recursive: true);
     return PredictionPayload(payload: payload);
   }
 

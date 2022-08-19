@@ -2,9 +2,10 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mobile/app/domain/entities/prediction.dart';
 import 'package:mobile/app/domain/entities/prediction_payload.dart';
 
-import '../../../dummies/files.dart';
-import '../../../dummies/predictions.dart';
-import '../../../dummies/strings.dart';
+import '../../../../dummies/files.dart';
+import '../../../../dummies/predictionPayloads.dart';
+import '../../../../dummies/predictions.dart';
+import '../../../../dummies/strings.dart';
 
 void main() {
   test('Should be equatable', () {
@@ -85,5 +86,15 @@ void main() {
     expect(prediction.dx, 'undetermined');
     expect(prediction.diseaseName, 'undetermined');
     expect(prediction.predicted, false);
+  });
+
+  test('Should correctly merge response and payload', () async {
+    Prediction prediction = Prediction.mergeResponsePayload(
+        perfectPrediction, perfectPredictionPayload);
+    expect(prediction.localImagePath, StringDummy.filePath);
+    expect(prediction.remoteImagePath, StringDummy.remoteImagePath);
+    expect(prediction.dx, StringDummy.dx);
+    expect(prediction.diseaseName, StringDummy.diseaseName);
+    expect(prediction.predicted, true);
   });
 }

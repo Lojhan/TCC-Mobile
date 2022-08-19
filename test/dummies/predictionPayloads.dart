@@ -7,3 +7,7 @@ import 'files.dart';
 PredictionPayload perfectPredictionPayload = PredictionPayload(
   payload: FileDummy.file,
 );
+
+PredictionPayload invalidPredictionPayload = PredictionPayload(
+  payload: File(''),
+);

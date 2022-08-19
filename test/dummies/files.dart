@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:typed_data';
 
 import 'package:camera/camera.dart';
 
@@ -9,7 +8,6 @@ class FileDummy {
   static File get file {
     final file = File(StringDummy.filePath);
     file.createSync(recursive: true);
-    File('./dummy.json');
     return file;
   }
 

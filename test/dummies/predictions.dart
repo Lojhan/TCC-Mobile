@@ -1,11 +1,13 @@
 import 'package:mobile/app/domain/entities/prediction.dart';
 
+import 'strings.dart';
+
 Prediction perfectPrediction = Prediction(
-  id: 'id',
-  localImagePath: 'localImagePath',
-  remoteImagePath: 'remoteImagePath',
-  dx: 'dx',
-  diseaseName: 'diseaseName',
-  createdAt: DateTime.parse('2020-01-01'),
+  id: StringDummy.id,
+  localImagePath: StringDummy.localImagePath,
+  remoteImagePath: StringDummy.remoteImagePath,
+  dx: StringDummy.dx,
+  diseaseName: StringDummy.diseaseName,
+  createdAt: DateTime.parse(StringDummy.date),
   predicted: true,
 );

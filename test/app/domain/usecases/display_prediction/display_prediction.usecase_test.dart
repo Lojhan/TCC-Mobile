@@ -7,7 +7,7 @@ import 'package:mobile/app/domain/usecases/display_predictions.usecase.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
-import '../../../dummies/predictions.dart';
+import '../../../../dummies/predictions.dart';
 import 'display_prediction.usecase_test.mocks.dart';
 
 @GenerateMocks([IPredictionsService])
@@ -22,7 +22,9 @@ void main() {
         .thenAnswer((_) async => Right(perfectPrediction));
 
     final prediction = await displayPrediction('id');
+    await untilCalled(predictionsService.getPrediction(id: 'id'));
 
+    verify(predictionsService.getPrediction(id: 'id')).called(1);
     expect(prediction, Right<Failure, Prediction>(perfectPrediction));
   });
 
@@ -31,9 +33,32 @@ void main() {
         .thenAnswer((_) async => Left(Failure()));
 
     final prediction = await displayPrediction('');
+    await untilCalled(predictionsService.getPrediction(id: ''));
+
+    verify(predictionsService.getPrediction(id: '')).called(1);
     expect(prediction.runtimeType,
         Left<Failure, Prediction>(Failure()).runtimeType);
   });
 
-  test('Should return Left if the payload is invalid', () => {});
+  test('Should return Left if the service fails', () async {
+    when(predictionsService.getPrediction(id: 'id')).thenThrow(Failure());
+
+    final prediction = await displayPrediction('');
+    await untilCalled(predictionsService.getPrediction(id: ''));
+
+    verify(predictionsService.getPrediction(id: '')).called(1);
+    expect(prediction.runtimeType,
+        Left<Failure, Prediction>(Failure()).runtimeType);
+  });
+
+  test('Should return Left if the service throws', () async {
+    when(predictionsService.getPrediction(id: 'id')).thenThrow(Exception());
+
+    final prediction = await displayPrediction('');
+    await untilCalled(predictionsService.getPrediction(id: ''));
+
+    verify(predictionsService.getPrediction(id: '')).called(1);
+    expect(prediction.runtimeType,
+        Left<Failure, Prediction>(Failure()).runtimeType);
+  });
 }
