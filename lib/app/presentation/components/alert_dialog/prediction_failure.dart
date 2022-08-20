@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mobile/app/domain/errors/errors.dart';
+import 'package:mobile/errors/errors.dart';
 
 Future<void> showPredictionFailureDialog(
     BuildContext context, Failure failure) async {

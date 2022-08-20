@@ -14,7 +14,7 @@ import 'package:mobile/app/presentation/screens/home_page.dart';
 import 'presentation/BloC/blocs.dart';
 
 class AppModule extends Module {
-  String predictionsBaseUrl = 'http://192.168.15.10:8080/predict';
+  String predictionsBaseUrl = 'http://10.131.128.217:8080/predict';
 
   @override
   List<Bind> get binds => [

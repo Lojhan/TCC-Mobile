@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:camera/camera.dart';
+import 'package:image_picker/image_picker.dart';
 
 import 'strings.dart';
 

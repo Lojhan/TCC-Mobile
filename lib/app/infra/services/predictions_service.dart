@@ -1,4 +1,4 @@
-import 'package:mobile/app/domain/errors/errors.dart';
+import 'package:mobile/errors/errors.dart';
 import 'package:mobile/app/domain/entities/prediction_payload.dart';
 import 'package:mobile/app/domain/entities/prediction.dart';
 import 'package:dartz/dartz.dart';
@@ -38,7 +38,8 @@ class PredictionsService implements IPredictionsService {
       return Left(Failure());
     } on Error {
       return Left(Failure());
-    } on Exception {
+    } on Exception catch (e) {
+      print(e);
       return Left(Failure());
     }
   }

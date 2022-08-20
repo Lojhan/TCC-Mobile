@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:equatable/equatable.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:mobile/app/domain/entities/prediction.dart';
-import 'package:mobile/app/domain/errors/errors.dart';
+import 'package:mobile/errors/errors.dart';
 import 'package:mobile/app/domain/usecases/list_predictions.usecase.dart';
 import 'package:mobile/app/presentation/components/misc/decide_from_state.dart';
 

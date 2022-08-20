@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:mobile/app/domain/errors/errors.dart';
+import 'package:mobile/errors/errors.dart';
 import 'package:mobile/app/presentation/BloC/predict_disease/predict_disease_bloc.dart';
 import 'package:mobile/app/presentation/components/alert_dialog/prediction_failure.dart';
 import 'package:mobile/app/presentation/components/bottom_sheet/no_cameras_available.dart';

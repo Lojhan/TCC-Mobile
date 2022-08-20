@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mobile/app/domain/entities/prediction.dart';
-import 'package:mobile/app/domain/errors/errors.dart';
+import 'package:mobile/errors/errors.dart';
 import 'package:mobile/app/domain/interfaces/services/i_predictions_service.dart';
 import 'package:mobile/app/domain/usecases/list_predictions.usecase.dart';
 import 'package:mockito/annotations.dart';

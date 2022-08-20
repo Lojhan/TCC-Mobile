@@ -1,4 +1,4 @@
-import 'package:mobile/app/domain/errors/errors.dart';
+import 'package:mobile/errors/errors.dart';
 import 'package:mobile/app/domain/entities/prediction.dart';
 import 'package:dartz/dartz.dart';
 import 'package:mobile/app/external/datasources/prediction_remote_datasource.dart';

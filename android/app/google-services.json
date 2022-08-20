@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "275195114381",
+    "project_id": "skin-classification",
+    "storage_bucket": "skin-classification.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:275195114381:android:07c19e1367cf78b1edc3c4",
+        "android_client_info": {
+          "package_name": "com.tcc.mobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "275195114381-n6092ack4de0fp7qckstd07fbnga9n7q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBetEvnV31lmQl16W64DV7igpdUDZ6-YfE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "275195114381-n6092ack4de0fp7qckstd07fbnga9n7q.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "275195114381-6ef8o9eom4n27dr3b0135r3v1retr4ti.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.tcc.mobile"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

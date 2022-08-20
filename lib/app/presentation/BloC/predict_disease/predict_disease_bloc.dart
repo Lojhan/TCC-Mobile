@@ -4,7 +4,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobile/app/domain/entities/prediction.dart';
 import 'package:mobile/app/domain/entities/prediction_payload.dart';
-import 'package:mobile/app/domain/errors/errors.dart';
+import 'package:mobile/errors/errors.dart';
 import 'package:mobile/app/domain/usecases/predict_disease.usecase.dart';
 import 'package:mobile/app/presentation/BloC/list_predictions/list_predictions_bloc.dart';
 

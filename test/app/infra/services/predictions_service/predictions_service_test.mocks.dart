@@ -8,11 +8,11 @@ import 'dart:async' as _i5;
 import 'package:dartz/dartz.dart' as _i2;
 import 'package:mobile/app/domain/entities/prediction.dart' as _i3;
 import 'package:mobile/app/domain/entities/prediction_payload.dart' as _i8;
-import 'package:mobile/app/domain/errors/errors.dart' as _i6;
 import 'package:mobile/app/infra/interfaces/datasources/i_predict_service.dart'
     as _i7;
 import 'package:mobile/app/infra/interfaces/i_predictions_repository.dart'
     as _i4;
+import 'package:mobile/errors/errors.dart' as _i6;
 import 'package:mockito/mockito.dart' as _i1;
 
 // ignore_for_file: type=lint

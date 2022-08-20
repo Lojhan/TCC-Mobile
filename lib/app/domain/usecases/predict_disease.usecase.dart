@@ -1,8 +1,8 @@
 import 'package:dartz/dartz.dart';
 import 'package:mobile/app/domain/entities/prediction.dart';
 import 'package:mobile/app/domain/entities/prediction_payload.dart';
-import 'package:mobile/app/domain/errors/errors.dart';
 import 'package:mobile/app/domain/interfaces/services/i_predictions_service.dart';
+import 'package:mobile/errors/errors.dart';
 
 class PredictDisease {
   final IPredictionsService predictionsService;
@@ -17,9 +17,8 @@ class PredictDisease {
     }
 
     try {
-      final prediction =
-          await predictionsService.predictDisease(payload: payload);
-      return prediction.fold(
+      final p = await predictionsService.predictDisease(payload: payload);
+      return p.fold(
         (l) => Left(l),
         (r) => Right(r),
       );
