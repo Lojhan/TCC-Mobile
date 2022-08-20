@@ -11,3 +11,5 @@ class InvalidPredictionPayloadError extends Failure {}
 class NoCamerasAvailableException extends Failure {}
 
 class CameraPremissionException extends Failure {}
+
+class TimeoutFailure extends Failure {}

@@ -38,21 +38,25 @@ class GoogleAuthenticationProvider extends AuthProvider<void> {
   }
 
   FutureOr<UserCredential> _googleSignIn() async {
-    final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
+    try {
+      final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
 
-    if (googleUser == null) {
-      throw Exception('GoogleAuth is null');
+      if (googleUser == null) {
+        throw Exception('GoogleAuth is null');
+      }
+
+      final GoogleSignInAuthentication googleAuth =
+          await googleUser.authentication;
+      final AuthCredential credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
+
+      UserCredential userCredential =
+          await firebaseAuth.signInWithCredential(credential);
+      return userCredential;
+    } catch (e) {
+      throw e;
     }
-
-    final GoogleSignInAuthentication googleAuth =
-        await googleUser.authentication;
-    final AuthCredential credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth.accessToken,
-      idToken: googleAuth.idToken,
-    );
-
-    UserCredential userCredential =
-        await firebaseAuth.signInWithCredential(credential);
-    return userCredential;
   }
 }

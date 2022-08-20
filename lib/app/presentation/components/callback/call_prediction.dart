@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:mobile/app/domain/entities/prediction_payload.dart';
-import 'package:mobile/app/presentation/BloC/predict_disease/predict_disease_bloc.dart';
+import 'package:mobile/app/main/domain/entities/prediction_payload.dart';
+import 'package:mobile/app/presentation/BloC/main/predict_disease/predict_disease_bloc.dart';
 
 FutureOr<void> initPrediting(
   BuildContext context,

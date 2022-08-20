@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:mobile/app/domain/entities/prediction_payload.dart';
+import 'package:mobile/app/main/domain/entities/prediction_payload.dart';
 
 import 'files.dart';
 

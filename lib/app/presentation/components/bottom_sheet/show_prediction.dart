@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:mobile/app/domain/entities/prediction.dart';
+import 'package:mobile/app/main/domain/entities/prediction.dart';
 
 FutureOr showPrediction(
   BuildContext context,
