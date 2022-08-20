@@ -1,10 +1,11 @@
 import 'dart:async';
 
 import 'package:dartz/dartz.dart';
+import 'package:mobile/app/authentication/domain/usecases/abstract.dart';
 import 'package:mobile/app/authentication/infra/services/google_auth_service.dart';
 import 'package:mobile/errors/errors.dart';
 
-class SignOutGoogleUseCase {
+class SignOutGoogleUseCase extends ISignOutUseCase {
   GoogleAuthenticationService authService;
 
   SignOutGoogleUseCase({required this.authService});

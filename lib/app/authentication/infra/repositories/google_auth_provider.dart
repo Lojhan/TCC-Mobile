@@ -4,6 +4,7 @@ import 'package:mobile/app/authentication/domain/entities/user.dart';
 import 'dart:async';
 
 import 'package:mobile/app/authentication/domain/interfaces/repositories/auth_provider.dart';
+import 'package:mobile/errors/authentication_errors.dart';
 
 class GoogleAuthenticationProvider extends AuthProvider<void> {
   GoogleSignIn googleSignIn;
@@ -15,15 +16,19 @@ class GoogleAuthenticationProvider extends AuthProvider<void> {
   });
 
   @override
-  FutureOr<UserModel> getAuth() {
+  FutureOr<UserModel?> getAuth() {
     var user = firebaseAuth.currentUser;
     return getUser(user);
   }
 
   @override
   FutureOr<UserModel> signIn(params) async {
+    UserModel? user = await getAuth();
+    if (user is UserModel) {
+      return user;
+    }
     UserCredential credential = await _googleSignIn();
-    return getUser(credential.user);
+    return getUser(credential.user)!;
   }
 
   @override
@@ -42,7 +47,7 @@ class GoogleAuthenticationProvider extends AuthProvider<void> {
       final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
 
       if (googleUser == null) {
-        throw Exception('GoogleAuth is null');
+        throw GoogleAuthFailure();
       }
 
       final GoogleSignInAuthentication googleAuth =
@@ -55,8 +60,8 @@ class GoogleAuthenticationProvider extends AuthProvider<void> {
       UserCredential userCredential =
           await firebaseAuth.signInWithCredential(credential);
       return userCredential;
-    } catch (e) {
-      throw e;
+    } on Exception {
+      throw FirebaseAuthFailure();
     }
   }
 }

@@ -12,9 +12,11 @@ import 'package:path_provider/path_provider.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  Directory dir = await getApplicationDocumentsDirectory();
+  Directory dir = kIsWeb
+      ? HydratedStorage.webStorageDirectory
+      : await getApplicationDocumentsDirectory();
   final storage = await HydratedStorage.build(
-    storageDirectory: kIsWeb ? HydratedStorage.webStorageDirectory : dir,
+    storageDirectory: dir,
   );
 
   HydratedBlocOverrides.runZoned(

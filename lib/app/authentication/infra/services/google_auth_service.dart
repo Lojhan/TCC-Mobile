@@ -15,7 +15,11 @@ class GoogleAuthenticationService {
   FutureOr<Either<Failure, UserModel>> getAuth() async {
     try {
       final user = await authProvider.getAuth();
-      return Right(user);
+      if (user is UserModel) {
+        return Right(user);
+      } else {
+        return Left(Failure());
+      }
     } on Exception {
       return Left(Failure());
     }

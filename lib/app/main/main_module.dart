@@ -46,12 +46,10 @@ class MainModule extends Module {
         Bind.singleton((inject) => ListPredictionsBloc(
               usecase: inject<ListPredictions>(),
             )),
-        Bind.singleton(
-          (inject) => PredictDiseaseBloc(
-            usecase: inject<PredictDisease>(),
-            listPredictionsBloc: inject<ListPredictionsBloc>(),
-          ),
-        ),
+        Bind.singleton((inject) => PredictDiseaseBloc(
+              usecase: inject<PredictDisease>(),
+              listPredictionsBloc: inject<ListPredictionsBloc>(),
+            )),
       ];
 
   @override

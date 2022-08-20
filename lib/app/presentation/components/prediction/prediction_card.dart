@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile/app/main/domain/entities/prediction.dart';
 
@@ -19,6 +20,10 @@ class PredictionCard extends StatelessWidget {
 
     if (f.path.startsWith('assets')) {
       return AssetImage(f.path);
+    }
+
+    if (kIsWeb) {
+      return const AssetImage('assets/images/no_image.jpeg');
     }
 
     if (f.existsSync()) {

@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobile/app/authentication/authentication_module.dart';
 import 'package:mobile/app/main/main_module.dart';
+import 'package:mobile/app/presentation/BloC/blocs.dart';
 
 class AppModule extends Module {
   @override
@@ -11,7 +12,7 @@ class AppModule extends Module {
               sendTimeout: 1000,
               receiveTimeout: 1000,
             ))),
-        ...AuthenticationModule.binds
+        ...AuthenticationModule.binds,
       ];
 
   @override

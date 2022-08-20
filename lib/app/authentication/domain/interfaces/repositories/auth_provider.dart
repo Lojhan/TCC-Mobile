@@ -7,11 +7,11 @@ abstract class AuthProvider<T> {
   FutureOr<UserModel> signIn(T? params);
   FutureOr<UserModel> signUp(T? params);
   FutureOr<void> signOut();
-  FutureOr<UserModel> getAuth();
+  FutureOr<UserModel?> getAuth();
 
-  UserModel getUser(User? user) {
+  UserModel? getUser(User? user) {
     if (user == null) {
-      throw Exception();
+      return null;
     }
     return UserModel(
       id: user.uid,

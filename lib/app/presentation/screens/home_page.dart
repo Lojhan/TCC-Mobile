@@ -4,7 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:mobile/app/authentication/domain/entities/user.dart';
+import 'package:mobile/app/authentication/domain/models/providers_enum.dart';
 import 'package:mobile/app/authentication/domain/usecases/google/google_auth_usecases.dart';
+import 'package:mobile/app/presentation/BloC/authentication/authentication_bloc.dart';
 import 'package:mobile/errors/errors.dart';
 import 'package:mobile/app/presentation/BloC/main/predict_disease/predict_disease_bloc.dart';
 import 'package:mobile/app/presentation/components/alert_dialog/prediction_failure.dart';
@@ -29,10 +32,27 @@ class HomePage extends StatelessWidget {
     }
   }
 
+  FutureOr<UserModel?> getUserOrLogin(
+    GetAuthGoogleUseCase getAuth,
+    SignInGoogleUseCase signIn,
+  ) async {
+    UserModel? user;
+    final res = await signIn();
+    final usermaybe = res.fold((l) => l, (r) => r);
+
+    if (usermaybe is UserModel) {
+      user = usermaybe;
+    }
+    return user;
+  }
+
   @override
   Widget build(BuildContext context) {
     final PredictDiseaseBloc predictDiseaseBloc = Modular.get();
-    final SignInGoogleUseCase signInGoogleUseCase = Modular.get();
+    final AuthenticationBloc authenticationBloc = Modular.get();
+
+    const event =
+        AuthenticationSignInEvent(provider: AuthenticationProvider.google);
 
     return Scaffold(
       appBar: AppBar(
@@ -40,7 +60,7 @@ class HomePage extends StatelessWidget {
         actions: [
           IconButton(
             icon: const Icon(Icons.exit_to_app),
-            onPressed: () => signInGoogleUseCase(),
+            onPressed: () => authenticationBloc.add(event),
           ),
         ],
       ),

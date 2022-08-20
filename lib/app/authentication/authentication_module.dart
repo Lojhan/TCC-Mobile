@@ -10,6 +10,7 @@ import 'package:mobile/app/authentication/infra/repositories/credentials_auth_pr
 import 'package:mobile/app/authentication/infra/repositories/google_auth_provider.dart';
 import 'package:mobile/app/authentication/infra/services/credentials_auth_service.dart';
 import 'package:mobile/app/authentication/infra/services/google_auth_service.dart';
+import 'package:mobile/app/presentation/BloC/authentication/authentication_bloc.dart';
 
 class AuthenticationModule {
   static List<Bind> get _credentialsBinds => [
@@ -63,5 +64,15 @@ class AuthenticationModule {
             )),
         ..._credentialsBinds,
         ..._googleBinds,
+        Bind.singleton((inject) => AuthenticationBloc(
+              signInCredentialsUseCase: inject<SignInCredentialsUseCase>(),
+              signOutCredentialsUseCase: inject<SignOutCredentialsUseCase>(),
+              signUpCredentialsUseCase: inject<SignUpCredentialsUseCase>(),
+              getAuthCredentialsUseCase: inject<GetAuthCredentialsUseCase>(),
+              signInGoogleUseCase: inject<SignInGoogleUseCase>(),
+              signOutGoogleUseCase: inject<SignOutGoogleUseCase>(),
+              signUpGoogleUseCase: inject<SignUpGoogleUseCase>(),
+              getAuthGoogleUseCase: inject<GetAuthGoogleUseCase>(),
+            )),
       ];
 }

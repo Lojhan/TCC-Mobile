@@ -2,10 +2,11 @@ import 'dart:async';
 
 import 'package:dartz/dartz.dart';
 import 'package:mobile/app/authentication/domain/entities/user.dart';
+import 'package:mobile/app/authentication/domain/usecases/abstract.dart';
 import 'package:mobile/app/authentication/infra/services/google_auth_service.dart';
 import 'package:mobile/errors/errors.dart';
 
-class SignUpGoogleUseCase {
+class SignUpGoogleUseCase extends ISignUpUseCase {
   GoogleAuthenticationService authService;
 
   SignUpGoogleUseCase({required this.authService});

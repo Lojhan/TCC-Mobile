@@ -15,8 +15,13 @@ class CredentialsAuthenticationService {
 
   FutureOr<Either<Failure, UserModel>> getAuth() async {
     try {
-      final user = authProvider.getAuth();
-      return Right(user);
+      final user = await authProvider.getAuth();
+
+      if (user is UserModel) {
+        return Right(user);
+      } else {
+        return Left(Failure());
+      }
     } on Exception {
       return Left(Failure());
     }

@@ -11,9 +11,8 @@ class CredentialsAuthProvider extends AuthProvider<CredentialsPayload> {
   CredentialsAuthProvider({required this.firebaseAuth}) : super();
 
   @override
-  UserModel getAuth() {
+  FutureOr<UserModel?> getAuth() {
     var user = firebaseAuth.currentUser;
-
     return getUser(user);
   }
 
@@ -21,12 +20,17 @@ class CredentialsAuthProvider extends AuthProvider<CredentialsPayload> {
   FutureOr<UserModel> signIn(CredentialsPayload? params) async {
     validateNullParams(params);
 
+    UserModel? user = await getAuth();
+    if (user is UserModel) {
+      return user;
+    }
+
     final response = await firebaseAuth.signInWithEmailAndPassword(
       email: params!.email,
       password: params.password,
     );
 
-    return getUser(response.user);
+    return getUser(response.user)!;
   }
 
   @override
@@ -42,6 +46,6 @@ class CredentialsAuthProvider extends AuthProvider<CredentialsPayload> {
       email: params!.email,
       password: params.password,
     );
-    return getUser(response.user);
+    return getUser(response.user)!;
   }
 }
