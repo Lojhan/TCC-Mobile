@@ -1,8 +1,6 @@
-import 'dart:io';
-
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile/app/main/domain/entities/prediction.dart';
+import 'package:mobile/app/presentation/components/misc/image_provider.dart';
 
 class PredictionCard extends StatelessWidget {
   final Prediction prediction;
@@ -10,28 +8,6 @@ class PredictionCard extends StatelessWidget {
     Key? key,
     required this.prediction,
   }) : super(key: key);
-
-  ImageProvider getImageProvider(String path) {
-    File f = File(path);
-
-    if (f.path.startsWith('http')) {
-      return NetworkImage(f.path);
-    }
-
-    if (f.path.startsWith('assets')) {
-      return AssetImage(f.path);
-    }
-
-    if (kIsWeb) {
-      return const AssetImage('assets/images/no_image.jpeg');
-    }
-
-    if (f.existsSync()) {
-      return FileImage(f);
-    }
-
-    return const AssetImage('assets/images/no_image.jpeg');
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,9 +20,7 @@ class PredictionCard extends StatelessWidget {
         trailing: SizedBox(
           height: 300,
           child: Image(
-            image: getImageProvider(
-              prediction.image,
-            ),
+            image: getImageProvider(prediction.image),
             fit: BoxFit.cover,
             width: 100,
           ),

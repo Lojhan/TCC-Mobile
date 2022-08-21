@@ -41,6 +41,7 @@ class AuthenticationBloc
     on<AuthenticationSignInEvent>(_signIn);
     on<AuthenticationSignOutEvent>(_signOut);
     on<AuthenticationSignUpEvent>(_signUp);
+    on<AuthenticationGetAuthEvent>(_getAuth);
   }
 
   Future<void> _signIn(
@@ -100,6 +101,20 @@ class AuthenticationBloc
       result = await signUp();
     }
 
+    return result.fold(
+      (l) => emit(AuthenticationState.failure(l)),
+      (r) => emit(AuthenticationState.login(r, provider)),
+    );
+  }
+
+  FutureOr<void> _getAuth(
+    AuthenticationGetAuthEvent event,
+    Emitter<AuthenticationState> emit,
+  ) async {
+    final provider = event.provider;
+    final usecases = _getAuthUseCase(provider);
+    final getAuth = usecases![AuthenticationMethods.getAuth]!;
+    final result = await getAuth();
     return result.fold(
       (l) => emit(AuthenticationState.failure(l)),
       (r) => emit(AuthenticationState.login(r, provider)),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobile/errors/errors.dart';
 
 Future<void> showPredictionFailureDialog(
@@ -20,9 +21,7 @@ Future<void> showPredictionFailureDialog(
         actions: <Widget>[
           TextButton(
             child: const Text('Close'),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
+            onPressed: () => Modular.to.pop(),
           ),
         ],
       );

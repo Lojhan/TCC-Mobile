@@ -30,3 +30,8 @@ class AuthenticationSignUpEvent extends AuthenticationEvent {
     this.credentialspPayload,
   });
 }
+
+class AuthenticationGetAuthEvent extends AuthenticationEvent {
+  final AuthenticationProvider provider;
+  const AuthenticationGetAuthEvent({required this.provider});
+}
