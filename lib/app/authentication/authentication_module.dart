@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -73,6 +74,7 @@ class AuthenticationModule {
               signOutGoogleUseCase: inject<SignOutGoogleUseCase>(),
               signUpGoogleUseCase: inject<SignUpGoogleUseCase>(),
               getAuthGoogleUseCase: inject<GetAuthGoogleUseCase>(),
+              dioInstance: inject<Dio>(),
             )),
       ];
 }

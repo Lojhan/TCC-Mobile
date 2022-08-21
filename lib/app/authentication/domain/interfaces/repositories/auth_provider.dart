@@ -9,18 +9,18 @@ abstract class AuthProvider<T> {
   FutureOr<void> signOut();
   FutureOr<UserModel?> getAuth();
 
-  UserModel? getUser(User? user) {
+  FutureOr<UserModel?> getUser(User? user) async {
     if (user == null) {
       return null;
     }
     return UserModel(
-      id: user.uid,
-      name: user.displayName ?? 'Mighty Hyena',
-      email: user.email ?? 'mighty_hyena@app.com',
-      photoUrl: user.photoURL ??
-          // TODO: change to a default asset image
-          'https://images.theconversation.com/files/260231/original/file-20190221-195864-2t43e7.jpg',
-    );
+        id: user.uid,
+        name: user.displayName ?? 'Mighty Hyena',
+        email: user.email ?? 'mighty_hyena@app.com',
+        photoUrl: user.photoURL ??
+            // TODO: change to a default asset image
+            'https://images.theconversation.com/files/260231/original/file-20190221-195864-2t43e7.jpg',
+        token: await user.getIdToken());
   }
 
   validateNullParams(T? params) {

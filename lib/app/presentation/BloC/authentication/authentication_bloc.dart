@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:dartz/dartz.dart';
+import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:mobile/app/authentication/domain/entities/user.dart';
@@ -28,6 +29,8 @@ class AuthenticationBloc
   final GetAuthCredentialsUseCase getAuthCredentialsUseCase;
   final GetAuthGoogleUseCase getAuthGoogleUseCase;
 
+  final Dio dioInstance;
+
   AuthenticationBloc({
     required this.signInCredentialsUseCase,
     required this.signInGoogleUseCase,
@@ -37,11 +40,22 @@ class AuthenticationBloc
     required this.signOutGoogleUseCase,
     required this.getAuthCredentialsUseCase,
     required this.getAuthGoogleUseCase,
+    required this.dioInstance,
   }) : super(AuthenticationState.initial()) {
     on<AuthenticationSignInEvent>(_signIn);
     on<AuthenticationSignOutEvent>(_signOut);
     on<AuthenticationSignUpEvent>(_signUp);
     on<AuthenticationGetAuthEvent>(_getAuth);
+    on<AddRequestInterceptorsEvent>(_addRequestInterceptors);
+  }
+
+  _success(
+    AuthenticationProvider provider,
+    UserModel user,
+    Emitter<AuthenticationState> emit,
+  ) {
+    add(AddRequestInterceptorsEvent(provider: provider, token: user.token));
+    emit(AuthenticationState.login(user, provider));
   }
 
   Future<void> _signIn(
@@ -65,7 +79,7 @@ class AuthenticationBloc
 
     return result.fold(
       (l) => emit(AuthenticationState.failure(l)),
-      (r) => emit(AuthenticationState.login(r, provider)),
+      (r) => _success(provider, r, emit),
     );
   }
 
@@ -103,7 +117,7 @@ class AuthenticationBloc
 
     return result.fold(
       (l) => emit(AuthenticationState.failure(l)),
-      (r) => emit(AuthenticationState.login(r, provider)),
+      (r) => _success(provider, r, emit),
     );
   }
 
@@ -117,7 +131,7 @@ class AuthenticationBloc
     final result = await getAuth();
     return result.fold(
       (l) => emit(AuthenticationState.failure(l)),
-      (r) => emit(AuthenticationState.login(r, provider)),
+      (r) => _success(provider, r, emit),
     );
   }
 
@@ -150,5 +164,19 @@ class AuthenticationBloc
     return {
       'state': state.toJson(),
     };
+  }
+
+  FutureOr<void> _addRequestInterceptors(
+    AddRequestInterceptorsEvent event,
+    Emitter<AuthenticationState> emit,
+  ) {
+    InterceptorsWrapper interceptor = InterceptorsWrapper(onRequest: (
+      RequestOptions options,
+      RequestInterceptorHandler handler,
+    ) {
+      options.headers.addAll({'Authorization': 'Bearer ${event.token}'});
+      handler.next(options);
+    });
+    dioInstance.interceptors.add(interceptor);
   }
 }

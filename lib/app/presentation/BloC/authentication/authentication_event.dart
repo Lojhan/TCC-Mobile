@@ -35,3 +35,12 @@ class AuthenticationGetAuthEvent extends AuthenticationEvent {
   final AuthenticationProvider provider;
   const AuthenticationGetAuthEvent({required this.provider});
 }
+
+class AddRequestInterceptorsEvent extends AuthenticationEvent {
+  final AuthenticationProvider provider;
+  final String token;
+  const AddRequestInterceptorsEvent({
+    required this.provider,
+    required this.token,
+  });
+}

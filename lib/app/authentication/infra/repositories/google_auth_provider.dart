@@ -18,6 +18,7 @@ class GoogleAuthenticationProvider extends AuthProvider<void> {
   @override
   FutureOr<UserModel?> getAuth() {
     var user = firebaseAuth.currentUser;
+
     return getUser(user);
   }
 
@@ -28,7 +29,14 @@ class GoogleAuthenticationProvider extends AuthProvider<void> {
       return user;
     }
     UserCredential credential = await _googleSignIn();
-    return getUser(credential.user)!;
+
+    UserModel? userModel = await getUser(credential.user)!;
+
+    if (userModel is UserModel) {
+      return userModel;
+    } else {
+      throw Exception('User not found');
+    }
   }
 
   @override
@@ -60,7 +68,7 @@ class GoogleAuthenticationProvider extends AuthProvider<void> {
       UserCredential userCredential =
           await firebaseAuth.signInWithCredential(credential);
       return userCredential;
-    } on Exception {
+    } on Exception catch (e) {
       throw FirebaseAuthFailure();
     }
   }

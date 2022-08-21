@@ -30,7 +30,13 @@ class CredentialsAuthProvider extends AuthProvider<CredentialsPayload> {
       password: params.password,
     );
 
-    return getUser(response.user)!;
+    UserModel? userModel = await getUser(response.user)!;
+
+    if (userModel is UserModel) {
+      return userModel;
+    } else {
+      throw Exception('User not found');
+    }
   }
 
   @override
@@ -46,6 +52,12 @@ class CredentialsAuthProvider extends AuthProvider<CredentialsPayload> {
       email: params!.email,
       password: params.password,
     );
-    return getUser(response.user)!;
+    UserModel? userModel = await getUser(response.user)!;
+
+    if (userModel is UserModel) {
+      return userModel;
+    } else {
+      throw Exception('User not found');
+    }
   }
 }
