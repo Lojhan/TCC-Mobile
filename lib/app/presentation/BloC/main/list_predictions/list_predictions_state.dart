@@ -22,16 +22,8 @@ class ListPredictionsState extends Equatable implements StatePayload {
   }
 
   factory ListPredictionsState.initial() {
-    return ListPredictionsState(
-      predictions: [
-        Prediction(
-          id: 'id',
-          dx: 'dx',
-          diseaseName: 'diseaseName',
-          createdAt: DateTime.now(),
-          predicted: false,
-        )
-      ],
+    return const ListPredictionsState(
+      predictions: [],
       failure: null,
       isLoading: false,
     );

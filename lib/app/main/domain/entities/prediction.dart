@@ -10,6 +10,7 @@ class Prediction extends Equatable {
   final String diseaseName;
   final DateTime createdAt;
   final bool predicted;
+  final bool validated;
 
   String get image =>
       localImagePath.isNotEmpty ? localImagePath : remoteImagePath;
@@ -22,6 +23,7 @@ class Prediction extends Equatable {
     required this.diseaseName,
     required this.createdAt,
     required this.predicted,
+    required this.validated,
   });
 
   factory Prediction.fromRemote(Map<String, dynamic> json) {
@@ -32,7 +34,8 @@ class Prediction extends Equatable {
       dx: json['dx'],
       diseaseName: json['diseaseName'],
       createdAt: formatDate(json['createdAt']),
-      predicted: formatPredicted(json['predicted']),
+      predicted: formatBool(json['predicted']),
+      validated: formatBool(json['validated']),
     );
   }
 
@@ -43,7 +46,8 @@ class Prediction extends Equatable {
       dx: payload['dx'],
       diseaseName: payload['diseaseName'],
       createdAt: formatDate(payload['createdAt']),
-      predicted: formatPredicted(payload['predicted']),
+      predicted: formatBool(payload['predicted']),
+      validated: formatBool(payload['validated']),
     );
     return prediction;
   }
@@ -57,6 +61,7 @@ class Prediction extends Equatable {
       diseaseName: 'undetermined',
       createdAt: DateTime.now(),
       predicted: false,
+      validated: false,
     );
   }
 
@@ -68,7 +73,8 @@ class Prediction extends Equatable {
       dx: json['dx'],
       diseaseName: json['diseaseName'],
       createdAt: formatDate(json['createdAt']),
-      predicted: formatPredicted(json['predicted']),
+      predicted: formatBool(json['predicted']),
+      validated: formatBool(json['validated']),
     );
   }
 
@@ -83,7 +89,8 @@ class Prediction extends Equatable {
       dx: prediction?.dx ?? 'undetermined',
       diseaseName: prediction?.diseaseName ?? 'undetermined',
       createdAt: formatDate(prediction?.createdAt),
-      predicted: formatPredicted(prediction?.predicted),
+      predicted: formatBool(prediction?.predicted),
+      validated: formatBool(prediction?.validated),
     );
   }
 
@@ -108,16 +115,18 @@ class Prediction extends Equatable {
         predicted
       ];
 
-  static bool formatPredicted(dynamic prediction) {
-    var predicted = prediction;
+  static bool formatBool(dynamic boolean) {
+    var res = boolean;
+    if (res == null) {
+      return false;
+    }
+    res ??= boolean;
 
-    predicted ??= false;
-
-    if (predicted is String) {
-      predicted = predicted == 'true';
+    if (res is String) {
+      res = res == 'true';
     }
 
-    return predicted;
+    return res;
   }
 
   static DateTime formatDate(dynamic date) {

@@ -12,9 +12,9 @@ class AppModule extends Module {
   List<Bind> get binds => [
         Bind.singleton((inject) => Dio(
               BaseOptions(
-                connectTimeout: 1000,
-                sendTimeout: 1000,
-                receiveTimeout: 1000,
+                connectTimeout: 5000,
+                sendTimeout: 5000,
+                receiveTimeout: 5000,
               ),
             )),
         ...AuthenticationModule.binds,

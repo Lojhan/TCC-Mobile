@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:mobile/app/authentication/authentication_module.dart';
 import 'package:mobile/app/main/domain/usecases/display_predictions.usecase.dart';
 import 'package:mobile/app/main/domain/usecases/list_predictions.usecase.dart';
 import 'package:mobile/app/main/domain/usecases/predict_disease.usecase.dart';
@@ -15,7 +14,11 @@ import 'package:mobile/app/presentation/BloC/main/predict_disease/predict_diseas
 import 'package:mobile/app/presentation/screens/home_page.dart';
 
 class MainModule extends Module {
-  String predictionsBaseUrl = 'http://192.168.0.10:8080/predict';
+  String predictionsBaseUrl = 'http://192.168.15.10:3000/predictions';
+
+  MainModule() {
+    print(predictionsBaseUrl);
+  }
 
   @override
   List<Bind> get binds => [
