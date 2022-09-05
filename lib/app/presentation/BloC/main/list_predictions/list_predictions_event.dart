@@ -18,3 +18,22 @@ class PushNewPredictionEvent extends LPEvent {
   @override
   List<Object> get props => [prediction];
 }
+
+class UpdatePredictionEvent extends LPEvent {
+  final Prediction prediction;
+  final String predictionId;
+  const UpdatePredictionEvent({
+    required this.prediction,
+    required this.predictionId,
+  });
+
+  @override
+  List<Object> get props => [prediction];
+}
+
+class DeletePredictionEvent extends LPEvent {
+  final String predictionId;
+  const DeletePredictionEvent({required this.predictionId});
+}
+
+class ResetPredictionsEvent extends LPEvent {}

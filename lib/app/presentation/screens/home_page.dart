@@ -4,10 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:mobile/app/authentication/domain/entities/user.dart';
-import 'package:mobile/app/authentication/domain/models/providers_enum.dart';
-import 'package:mobile/app/authentication/domain/usecases/google/google_auth_usecases.dart';
-import 'package:mobile/app/presentation/BloC/authentication/authentication_bloc.dart';
 import 'package:mobile/app/presentation/components/misc/app_bar.dart';
 import 'package:mobile/errors/errors.dart';
 import 'package:mobile/app/presentation/BloC/main/predict_disease/predict_disease_bloc.dart';
@@ -41,11 +37,13 @@ class HomePage extends StatelessWidget {
       appBar: const ApplicationBar(),
       body: BlocListener<PredictDiseaseBloc, PredictDiseaseState>(
         bloc: predictDiseaseBloc,
-        listener: (context, state) {
+        listener: (context, state) async {
           if (state.failure != null) {
-            showPredictionFailureDialog(context, state.failure!);
+            return showPredictionFailureDialog(context, state.failure!);
+          } else if (state.retriedPrediction != null) {
+            return showPrediction(context, state.retriedPrediction!);
           } else if (state.prediction != null) {
-            showPrediction(context, state.prediction!);
+            return showPrediction(context, state.prediction!);
           }
         },
         child: ListPredictionsComponent(),

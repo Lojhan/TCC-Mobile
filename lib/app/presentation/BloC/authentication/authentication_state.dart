@@ -57,7 +57,7 @@ class AuthenticationState extends Equatable {
   }
 
   @override
-  List<Object?> get props => [user, failure];
+  List<Object?> get props => [user, failure, provider];
 
   bool get isAuthenticated {
     if (failure is Failure) {

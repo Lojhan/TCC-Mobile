@@ -1,6 +1,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:mobile/app/main/domain/entities/prediction_payload.dart';
-import 'package:mobile/helpers/valid_datestring.dart';
+import 'package:mobile/helpers/format_bool.dart';
+import 'package:mobile/helpers/format_date.dart';
+import 'package:mobile/helpers/random_string_id.dart';
 
 class Prediction extends Equatable {
   final String id;
@@ -31,8 +33,8 @@ class Prediction extends Equatable {
       id: json['id'],
       localImagePath: '',
       remoteImagePath: json['remoteImagePath'],
-      dx: json['dx'],
-      diseaseName: json['diseaseName'],
+      dx: json['dx'] ?? 'undetermined',
+      diseaseName: json['diseaseName'] ?? 'undetermined',
       createdAt: formatDate(json['createdAt']),
       predicted: formatBool(json['predicted']),
       validated: formatBool(json['validated']),
@@ -54,7 +56,7 @@ class Prediction extends Equatable {
 
   factory Prediction.fromPayload(PredictionPayload payload) {
     return Prediction(
-      id: DateTime.now().toString(),
+      id: randomStringId(),
       localImagePath: payload.payload.path,
       remoteImagePath: 'not uploaded',
       dx: 'undetermined',
@@ -83,7 +85,7 @@ class Prediction extends Equatable {
     PredictionPayload? payload,
   ) {
     return Prediction(
-      id: prediction?.id ?? payload?.payload.hashCode.toString() ?? '',
+      id: prediction?.id ?? randomStringId(),
       localImagePath: payload?.payload.path ?? '',
       remoteImagePath: prediction?.remoteImagePath ?? '',
       dx: prediction?.dx ?? 'undetermined',
@@ -114,29 +116,4 @@ class Prediction extends Equatable {
         createdAt,
         predicted
       ];
-
-  static bool formatBool(dynamic boolean) {
-    var res = boolean;
-    if (res == null) {
-      return false;
-    }
-    res ??= boolean;
-
-    if (res is String) {
-      res = res == 'true';
-    }
-
-    return res;
-  }
-
-  static DateTime formatDate(dynamic date) {
-    if (date is DateTime) {
-      return date;
-    }
-    bool valid = validDateString(date);
-    if (valid) {
-      return DateTime.parse(date);
-    }
-    return DateTime.now();
-  }
 }

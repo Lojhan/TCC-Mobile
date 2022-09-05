@@ -41,7 +41,7 @@ class GoogleAuthenticationProvider extends AuthProvider<void> {
 
   @override
   FutureOr<void> signOut() async {
-    await googleSignIn.disconnect();
+    await googleSignIn.signOut();
     await firebaseAuth.signOut();
   }
 
@@ -57,7 +57,6 @@ class GoogleAuthenticationProvider extends AuthProvider<void> {
       if (googleUser == null) {
         throw GoogleAuthFailure();
       }
-
       final GoogleSignInAuthentication googleAuth =
           await googleUser.authentication;
       final AuthCredential credential = GoogleAuthProvider.credential(
@@ -69,6 +68,7 @@ class GoogleAuthenticationProvider extends AuthProvider<void> {
           await firebaseAuth.signInWithCredential(credential);
       return userCredential;
     } on Exception catch (e) {
+      print(e);
       throw FirebaseAuthFailure();
     }
   }

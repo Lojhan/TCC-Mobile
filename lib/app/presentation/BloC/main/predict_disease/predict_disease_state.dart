@@ -2,6 +2,7 @@ part of 'predict_disease_bloc.dart';
 
 class PredictDiseaseState extends Equatable {
   final Prediction? prediction;
+  final Prediction? retriedPrediction;
   final Failure? failure;
   final bool isLoading;
 
@@ -9,6 +10,7 @@ class PredictDiseaseState extends Equatable {
     required this.prediction,
     required this.failure,
     required this.isLoading,
+    this.retriedPrediction,
   });
 
   factory PredictDiseaseState.initial() {
@@ -50,11 +52,22 @@ class PredictDiseaseState extends Equatable {
     Prediction? prediction,
     Failure? failure,
     bool isLoading = false,
+    Prediction? retriedPrediction,
   }) {
     return PredictDiseaseState(
       prediction: prediction ?? this.prediction,
       failure: failure ?? this.failure,
       isLoading: isLoading,
+      retriedPrediction: retriedPrediction ?? this.retriedPrediction,
+    );
+  }
+
+  factory PredictDiseaseState.retrySuccess(Prediction prediction) {
+    return PredictDiseaseState(
+      prediction: null,
+      failure: null,
+      isLoading: false,
+      retriedPrediction: prediction,
     );
   }
 }

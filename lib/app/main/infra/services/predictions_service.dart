@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:mobile/app/main/domain/entities/prediction.dart';
 import 'package:mobile/app/main/domain/entities/prediction_payload.dart';
+import 'package:mobile/app/main/domain/entities/retry_prediction_payload.dart';
 import 'package:mobile/app/main/domain/interfaces/services/i_predictions_service.dart';
 import 'package:mobile/app/main/infra/interfaces/datasources/i_predict_service.dart';
 import 'package:mobile/app/main/infra/interfaces/i_predictions_repository.dart';
@@ -34,6 +35,32 @@ class PredictionsService implements IPredictionsService {
   }) async {
     try {
       Prediction result = await predictService(payload: payload);
+      return Right(result);
+    } on Failure {
+      return Left(Failure());
+    } on DioError catch (e) {
+      if ([
+        DioErrorType.connectTimeout,
+        DioErrorType.receiveTimeout,
+        DioErrorType.sendTimeout
+      ].contains(e.type)) {
+        return Left(TimeoutFailure());
+      } else {
+        return Left(Failure());
+      }
+    } on Error {
+      return Left(Failure());
+    } on Exception {
+      return Left(Failure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, Prediction>> retry({
+    required RetryPredictionPayload payload,
+  }) async {
+    try {
+      Prediction result = await predictService.retry(payload: payload);
       return Right(result);
     } on Failure {
       return Left(Failure());

@@ -44,3 +44,8 @@ class AddRequestInterceptorsEvent extends AuthenticationEvent {
     required this.token,
   });
 }
+
+class AuthenticationRenewEvent extends AuthenticationEvent {
+  final AuthenticationState state;
+  const AuthenticationRenewEvent({required this.state});
+}

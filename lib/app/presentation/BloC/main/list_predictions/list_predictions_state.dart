@@ -12,7 +12,9 @@ class ListPredictionsState extends Equatable implements StatePayload {
   });
 
   factory ListPredictionsState.copyWith(
-      List<Prediction> preds, Prediction prediction) {
+    List<Prediction> preds,
+    Prediction prediction,
+  ) {
     List<Prediction> newPreds = List.from(preds)..add(prediction);
     return ListPredictionsState(
       predictions: newPreds,
@@ -49,6 +51,26 @@ class ListPredictionsState extends Equatable implements StatePayload {
     return ListPredictionsState(
       predictions: const [],
       failure: failure,
+      isLoading: false,
+    );
+  }
+
+  factory ListPredictionsState.updatePrediction(
+    List<Prediction> preds,
+    Prediction prediction,
+    String predictionId,
+  ) {
+    int index = preds
+        .indexWhere((pred) => [prediction.id, predictionId].contains(pred.id));
+    List<Prediction> newPreds = List.from(preds)
+      ..replaceRange(
+        index,
+        index + 1,
+        [prediction],
+      );
+    return ListPredictionsState(
+      predictions: newPreds,
+      failure: null,
       isLoading: false,
     );
   }

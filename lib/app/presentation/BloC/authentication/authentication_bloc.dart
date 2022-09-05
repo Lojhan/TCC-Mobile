@@ -10,6 +10,8 @@ import 'package:mobile/app/authentication/domain/models/methods_enum.dart';
 import 'package:mobile/app/authentication/domain/models/providers_enum.dart';
 import 'package:mobile/app/authentication/domain/usecases/credentials/credentials_auth_usecases.dart';
 import 'package:mobile/app/authentication/domain/usecases/google/google_auth_usecases.dart';
+import 'package:mobile/app/presentation/BloC/authentication/add_token_interceptor.dart';
+import 'package:mobile/app/presentation/BloC/authentication/retry_on_unauthorized_interceptor.dart';
 import 'package:mobile/errors/errors.dart';
 
 part 'authentication_event.dart';
@@ -47,6 +49,7 @@ class AuthenticationBloc
     on<AuthenticationSignUpEvent>(_signUp);
     on<AuthenticationGetAuthEvent>(_getAuth);
     on<AddRequestInterceptorsEvent>(_addRequestInterceptors);
+    on<AuthenticationRenewEvent>(_renewToken);
   }
 
   _success(
@@ -154,6 +157,47 @@ class AuthenticationBloc
     }[provider];
   }
 
+  FutureOr<void> _addRequestInterceptors(
+    AddRequestInterceptorsEvent event,
+    Emitter<AuthenticationState> emit,
+  ) async {
+    AuthenticationProvider provider = event.provider;
+    final usecases = _getAuthUseCase(provider);
+    final getAuth = usecases![AuthenticationMethods.getAuth]!;
+
+    InterceptorsWrapper interceptor = InterceptorsWrapper(
+      onRequest: addToken(event.token),
+      onError: await retryOnUnautorized(
+        dioInstance,
+        event.provider,
+        getAuth,
+        add.call,
+      ),
+    );
+    dioInstance.interceptors.add(interceptor);
+  }
+
+  FutureOr<void> _renewToken(
+    AuthenticationRenewEvent event,
+    Emitter<AuthenticationState> _,
+  ) async {
+    AuthenticationProvider provider = event.state.provider!;
+    final usecases = _getAuthUseCase(provider);
+    final getAuth = usecases![AuthenticationMethods.getAuth]!;
+    InterceptorsWrapper interceptor = InterceptorsWrapper(
+      onRequest: addToken(state.user!.token),
+      onError: await retryOnUnautorized(
+        dioInstance,
+        provider,
+        getAuth,
+        add.call,
+      ),
+    );
+
+    dioInstance.interceptors.first = interceptor;
+    dioInstance.interceptors.add(interceptor);
+  }
+
   @override
   AuthenticationState? fromJson(Map<String, dynamic> json) {
     return AuthenticationState.fromJson(json);
@@ -164,19 +208,5 @@ class AuthenticationBloc
     return {
       'state': state.toJson(),
     };
-  }
-
-  FutureOr<void> _addRequestInterceptors(
-    AddRequestInterceptorsEvent event,
-    Emitter<AuthenticationState> emit,
-  ) {
-    InterceptorsWrapper interceptor = InterceptorsWrapper(onRequest: (
-      RequestOptions options,
-      RequestInterceptorHandler handler,
-    ) {
-      options.headers.addAll({'Authorization': 'Bearer ${event.token}'});
-      handler.next(options);
-    });
-    dioInstance.interceptors.add(interceptor);
   }
 }

@@ -14,7 +14,7 @@ void main() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   Directory dir = kIsWeb
       ? HydratedStorage.webStorageDirectory
-      : await getApplicationDocumentsDirectory();
+      : await getApplicationSupportDirectory();
   final storage = await HydratedStorage.build(
     storageDirectory: dir,
   );
