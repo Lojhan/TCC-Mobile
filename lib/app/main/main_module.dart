@@ -18,10 +18,6 @@ import 'package:mobile/app/presentation/screens/home_page.dart';
 class MainModule extends Module {
   String predictionsBaseUrl = 'http://10.0.2.2:3000/predictions';
 
-  MainModule() {
-    print(predictionsBaseUrl);
-  }
-
   @override
   List<Bind> get binds => [
         Bind.singleton((inject) => PredictionRemoteDatasource(

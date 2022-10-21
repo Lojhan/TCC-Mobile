@@ -7,9 +7,22 @@ import 'package:mobile/app/presentation/components/misc/failure.dart';
 import 'package:mobile/app/presentation/components/misc/loading.dart';
 import 'package:mobile/app/presentation/components/prediction/prediction_card.dart';
 
-class ListPredictionsComponent extends StatelessWidget {
+class ListPredictionsComponent extends StatefulWidget {
+  const ListPredictionsComponent({Key? key}) : super(key: key);
+
+  @override
+  State<ListPredictionsComponent> createState() =>
+      _ListPredictionsComponentState();
+}
+
+class _ListPredictionsComponentState extends State<ListPredictionsComponent> {
   final ListPredictionsBloc bloc = Modular.get<ListPredictionsBloc>();
-  ListPredictionsComponent({Key? key}) : super(key: key);
+
+  @override
+  void initState() {
+    bloc.add(ListPredictionsEvent());
+    super.initState();
+  }
 
   Widget failure(BuildContext context) => FailureComponent(onRetry: () {
         bloc.add(ListPredictionsEvent());
@@ -19,10 +32,7 @@ class ListPredictionsComponent extends StatelessWidget {
           child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Image.asset(
-            'assets/images/neural.png',
-            width: 200,
-          ),
+          Image.asset('assets/images/neural.png', width: 200),
         ],
       ));
 

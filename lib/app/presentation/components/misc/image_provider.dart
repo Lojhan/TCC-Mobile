@@ -26,5 +26,9 @@ ImageProvider getImageProvider(String? path) {
     return FileImage(f);
   }
 
+  if (path.contains("uploads")) {
+    return NetworkImage("http://10.0.2.2:3000/$path");
+  }
+
   return const AssetImage('assets/images/no_image.jpeg');
 }

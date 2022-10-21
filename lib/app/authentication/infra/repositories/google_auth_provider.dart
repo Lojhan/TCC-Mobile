@@ -67,8 +67,7 @@ class GoogleAuthenticationProvider extends AuthProvider<void> {
       UserCredential userCredential =
           await firebaseAuth.signInWithCredential(credential);
       return userCredential;
-    } on Exception catch (e) {
-      print(e);
+    } on Exception {
       throw FirebaseAuthFailure();
     }
   }

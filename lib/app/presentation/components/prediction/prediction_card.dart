@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobile/app/main/domain/entities/prediction.dart';
-import 'package:mobile/app/main/domain/entities/retry_prediction_payload.dart';
-import 'package:mobile/app/presentation/BloC/main/predict_disease/predict_disease_bloc.dart';
 import 'package:mobile/app/presentation/components/bottom_sheet/show_prediction.dart';
 import 'package:mobile/app/presentation/components/misc/image_provider.dart';
 

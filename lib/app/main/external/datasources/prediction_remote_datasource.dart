@@ -24,11 +24,11 @@ class PredictionRemoteDatasource implements IRemoteDatasource<Prediction> {
   @override
   Future<List<Prediction>?> list() {
     return dioInstance
-        .get(baseUrl)
+        .get<List<dynamic>>(baseUrl)
         .then((response) => response.data)
         .then((data) {
-      final decoded = jsonDecode(data);
-      final mapped = decoded.map((item) => Prediction.fromRemote(item));
+      data ??= [];
+      final mapped = data.map((item) => Prediction.fromRemote(item));
 
       List<Prediction> list = [];
 
@@ -36,6 +36,8 @@ class PredictionRemoteDatasource implements IRemoteDatasource<Prediction> {
         list.add(item);
       }
       return list;
+    }).catchError((e) {
+      print(e);
     });
   }
 
