@@ -3,6 +3,7 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobile/app/main/domain/entities/prediction.dart';
 import 'package:mobile/app/main/domain/entities/retry_prediction_payload.dart';
 import 'package:mobile/app/presentation/BloC/main/predict_disease/predict_disease_bloc.dart';
+import 'package:mobile/app/presentation/components/bottom_sheet/show_prediction.dart';
 import 'package:mobile/app/presentation/components/misc/image_provider.dart';
 
 class PredictionCard extends StatelessWidget {
@@ -14,29 +15,15 @@ class PredictionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    PredictDiseaseBloc predictDiseaseBloc = Modular.get<PredictDiseaseBloc>();
     const titleStyle = TextStyle(fontSize: 20);
     const subtitleStyle = TextStyle(fontSize: 16);
 
-    void retryPrediction() {
-      RetryPredictionPayload payload =
-          RetryPredictionPayload.fromPrediction(prediction);
-      PredictDiseaseRetryEvent event =
-          PredictDiseaseRetryEvent(payload: payload);
-      return predictDiseaseBloc.add(event);
-    }
-
     return Card(
       child: ListTile(
+        onTap: () => showPrediction(context, prediction),
         contentPadding: const EdgeInsets.symmetric(
           horizontal: 24,
           vertical: 18,
-        ),
-        leading: InkWell(
-          onTap: retryPrediction,
-          child: const CircleAvatar(
-            child: Icon(Icons.redo),
-          ),
         ),
         trailing: SizedBox(
           height: 300,

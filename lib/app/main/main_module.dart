@@ -16,7 +16,7 @@ import 'package:mobile/app/presentation/BloC/main/predict_disease/predict_diseas
 import 'package:mobile/app/presentation/screens/home_page.dart';
 
 class MainModule extends Module {
-  String predictionsBaseUrl = 'http://172.20.10.4:3000/predictions';
+  String predictionsBaseUrl = 'http://10.0.2.2:3000/predictions';
 
   MainModule() {
     print(predictionsBaseUrl);
